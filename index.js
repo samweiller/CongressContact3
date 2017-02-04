@@ -610,7 +610,7 @@ function sendImageMessage(recipientId) {
       attachment: {
         type: "image",
         payload: {
-          url: SERVER_URL + "/assets/rift.png"
+          url: "http://www.personal.psu.edu/users/r/j/rjq5009/mushroom.png"
         }
       }
     }
@@ -632,7 +632,7 @@ function sendGifMessage(recipientId) {
       attachment: {
         type: "image",
         payload: {
-          url: SERVER_URL + "/assets/instagram_logo.gif"
+          url: "http://i.giphy.com/ZcD6INPX9REzu.gif"
         }
       }
     }
