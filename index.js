@@ -602,8 +602,8 @@ function receivedAccountLink(event) {
  *
  */
 function sendImageMessage(recipientId) {
-   sendReadReceipt(recipientId)
-   // sendTypingOn(recipientId)
+   // sendReadReceipt(recipientId)
+   sendTypingOn(recipientId)
   var messageData = {
     recipient: {
       id: recipientId
