@@ -209,7 +209,7 @@
  */
 
 /* jshint node: true, devel: true */
-'use strict';
+// 'use strict';
 
 const
   bodyParser = require('body-parser'),
