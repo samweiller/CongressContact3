@@ -18,7 +18,7 @@ app.get('/', function (req, res) {
     res.send('Hello world, I am a chat bot')
 })
 
-for Facebook verification
+// for Facebook verification
 app.get('/webhook', function (req, res) {
     if (req.query['hub.verify_token'] === 'my_password_is_my_voice_blah_verify_me') {
         res.send(req.query['hub.challenge'])
