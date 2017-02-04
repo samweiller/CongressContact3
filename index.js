@@ -602,6 +602,8 @@ function receivedAccountLink(event) {
  *
  */
 function sendImageMessage(recipientId) {
+   sendReadReceipt(recipientId)
+   sendTypingOn(recipientId)
   var messageData = {
     recipient: {
       id: recipientId
@@ -617,6 +619,7 @@ function sendImageMessage(recipientId) {
   };
 
   callSendAPI(messageData);
+  sendTypingOff(recipientId)
 }
 
 /*
