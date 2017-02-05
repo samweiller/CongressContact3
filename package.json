@@ -9,12 +9,14 @@
   "author": "Sam Weiller",
   "license": "ISC",
   "dependencies": {
+    "@google/maps": "^0.3.1",
     "body-parser": "^1.16.0",
     "config": "^1.25.1",
     "crypto": "0.0.3",
     "dotenv": "^4.0.0",
     "express": "^4.14.1",
     "https": "^1.0.0",
+    "lodash": "^4.17.4",
     "request": "^2.79.0"
   }
 }
