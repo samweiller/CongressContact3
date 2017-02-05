@@ -449,7 +449,7 @@ function receivedMessage(event) {
 
                     dataElements.push(repToPush) // Push rep into data array
 
-                    googleMapsClient.geocode({
+                    googleMapsClient.reverseGeocode({
                         latlng: messageAttachments.payload.coordinates.lat + ',' + messageAttachments.payload.coordinates.long
                     }, function(err, response) {
                         if (!err) {
