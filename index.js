@@ -126,16 +126,16 @@ request({
        setting_type: "call_to_actions",
        "thread_state" : "existing_thread",
        "call_to_actions":[
-         // {
-         //   "type":"postback",
-         //   "title":"Find More Representatives",
-         //   "payload": "RESTART_REP_SEARCH_PAYLOAD"
-         // },
-         // {
-         //   "type":"postback",
-         //   "title":"About Hana",
-         //   "payload": "ABOUT_THIS_BOT_PAYLOAD"
-         // }
+         {
+           "type":"postback",
+           "title":"Find More Representatives",
+           "payload": "RESTART_REP_SEARCH_PAYLOAD"
+         },
+         {
+           "type":"postback",
+           "title":"About Hana",
+           "payload": "ABOUT_THIS_BOT_PAYLOAD"
+         }
        ]
    }
 }, function(error, response, body) {
