@@ -96,6 +96,22 @@ request({
     console.log('Upload successful!  Server responded with:', body);
 })
 
+request({
+    uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
+    qs: {
+        access_token: PAGE_ACCESS_TOKEN
+    },
+    method: 'POST',
+    setting_type: "domain_whitelisting",
+    "whitelisted_domains" : ["https://www.facebook.com"],
+    "domain_action_type": "add"
+}, function(error, response, body) {
+    if (error) {
+        return console.error('upload failed:', error);
+    }
+    console.log('Upload successful!  Server responded with:', body);
+})
+
 
 /*
  * All callbacks for Messenger are POST-ed. They will be sent to the same
@@ -404,7 +420,7 @@ function receivedMessage(event) {
                                     },
                                     "buttons": [{
                                         "type": "web_url",
-                                        "url": "https://facebook.com",
+                                        "url": "https://www.facebook.com",
                                         "title": "View Website"
                                     }, {
                                         "type": "postback",
