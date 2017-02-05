@@ -328,26 +328,6 @@ function receivedMessage(event) {
         // keywords and send back the corresponding example. Otherwise, just echo
         // the text we received.
         switch (messageText) {
-            case 'image':
-                sendImageMessage(senderID);
-                break;
-
-            case 'gif':
-                sendGifMessage(senderID);
-                break;
-
-            case 'audio':
-                sendAudioMessage(senderID);
-                break;
-
-            case 'video':
-                sendVideoMessage(senderID);
-                break;
-
-            case 'file':
-                sendFileMessage(senderID);
-                break;
-
             case 'button':
                 sendButtonMessage(senderID);
                 break;
@@ -385,7 +365,7 @@ function receivedMessage(event) {
         }
     } else if (messageAttachments) {
         messageAttachments = messageAttachments[0]
-        sendTextMessage(senderID, "Message with attachment received");
+      //   sendTextMessage(senderID, "Message with attachment received");
         //   console.log('LOOK HERE')
         //   console.log(messageAttachments)
         if (messageAttachments.type === 'location') {
@@ -409,7 +389,7 @@ function receivedMessage(event) {
                 console.log('LOOK HERE')
                 var dataPack = JSON.parse(body);
                //  console.log(fooBar.results[0].last_name)
-                sendTextMessage(senderID, "Got it!")
+               //  sendTextMessage(senderID, "Got it!")
 
                 // build congressperson data cards
                 dataElements = []
@@ -436,7 +416,7 @@ function receivedMessage(event) {
                   //  theURL = repData.website.replace('http', 'https')
                   //  console.log(theURL)
 
-                  imageURL = "https://theunitedstates.io/images/congress/450x550/" + repData.bioguide_id + ".jpg"
+                  imageURL = "https://theunitedstates.io/images/congress/225x275/" + repData.bioguide_id + ".jpg"
 
                    repToPush = {
                       title: theName,
@@ -543,7 +523,14 @@ function receivedPostback(event) {
         setTimeout(function() {
                 sendLocationRequest(senderID)
         }, 2000)
-    }
+    } else if (payload.indexOf('RESTART_REP_SEARCH_PAYLOAD') > -1) {
+      setTimeout(function() {
+         sendTextMessage(senderID, "Let's look up some more representatives.")
+         setTimeout(function() {
+                 sendLocationRequest(senderID)
+         }, 2000)
+      }, 1000)
+   }
 }
 
 /*
