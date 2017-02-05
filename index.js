@@ -393,8 +393,11 @@ function receivedMessage(event) {
 
                 // build congressperson data cards
                 dataElements = []
+                masterRepData = []
                 for (cPeople = 0; cPeople < dataPack.results.length; cPeople++) {
                    repData = dataPack.results[cPeople];
+                   masterRepData.push(repData)
+
                    theName = toTitleCase(repData.first_name) + " " + toTitleCase(repData.last_name)
 
                    if (repData.party == 'R') {
@@ -535,7 +538,7 @@ function receivedPostback(event) {
       }, 1000)
    } else if (payload.indexOf('GENERATE_SCRIPT') > -1) {
       repIndex = payload[payload.length - 1];
-      console.log(dataPack.results[repIndex])
+      console.log(masterRepData.repIndex])
    }
 }
 
