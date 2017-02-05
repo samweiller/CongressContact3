@@ -376,128 +376,128 @@ function receivedMessage(event) {
 
             // Get Reps from Sunight
             request({
-                    uri: 'https://congress.api.sunlightfoundation.com/legislators/locate',
-                    qs: {
-                        latitude: messageAttachments.payload.coordinates.lat,
-                        longitude: messageAttachments.payload.coordinates.long
-                    },
-                    method: 'GET',
-                }, function(error, response, body) {
-                    if (error) {
-                        return console.error('upload failed:', error);
-                    }
-                    console.log('Upload successful!  Server responded with:', body);
-                    console.log('LOOK HERE')
-                    var dataPack = JSON.parse(body);
-                    if (body.results.length == 0) {
-                        sendTextMessage(senderID, "Looks like there are no congresspeople in that area. Please select another location using the menu.")
-                    } else {
-                        //  console.log(fooBar.results[0].last_name)
-                        //  sendTextMessage(senderID, "Got it!")
+                uri: 'https://congress.api.sunlightfoundation.com/legislators/locate',
+                qs: {
+                    latitude: messageAttachments.payload.coordinates.lat,
+                    longitude: messageAttachments.payload.coordinates.long
+                },
+                method: 'GET',
+            }, function(error, response, body) {
+                if (error) {
+                    return console.error('upload failed:', error);
+                }
+                console.log('Upload successful!  Server responded with:', body);
+                console.log('LOOK HERE')
+                var dataPack = JSON.parse(body);
+                if (body.results.length == 0) {
+                    sendTextMessage(senderID, "Looks like there are no congresspeople in that area. Please select another location using the menu.")
+                } else {
+                    //  console.log(fooBar.results[0].last_name)
+                    //  sendTextMessage(senderID, "Got it!")
 
-                        // build congressperson data cards
-                        dataElements = []
-                        masterRepData = []
-                        scriptData = []
+                    // build congressperson data cards
+                    dataElements = []
+                    masterRepData = []
+                    scriptData = []
 
-                        for (cPeople = 0; cPeople < dataPack.results.length; cPeople++) {
-                            repData = dataPack.results[cPeople];
-                            masterRepData.push(repData)
+                    for (cPeople = 0; cPeople < dataPack.results.length; cPeople++) {
+                        repData = dataPack.results[cPeople];
+                        masterRepData.push(repData)
 
-                            theName = toTitleCase(repData.first_name) + " " + toTitleCase(repData.last_name)
+                        theName = toTitleCase(repData.first_name) + " " + toTitleCase(repData.last_name)
 
-                            if (repData.party == 'R') {
-                                theParty = 'Republican'
-                            } else if (repData.party == 'D') {
-                                theParty = 'Democrat'
-                            } else if (repData.party == 'I') {
-                                theParty = 'Independent'
-                            } else {
-                                theParty = 'Party Error'
-                            }
-
-                            theFullSubtitle = toTitleCase(repData.chamber) + " - " + theParty
-
-                            theURL = repData.website
-                            if (theURL[4] == ':') {
-                                theURL = theURL.replace('http', 'https')
-                            }
-                            //  theURL = repData.website.replace('http', 'https')
-                            //  console.log(theURL)
-
-                            imageURL = "https://theunitedstates.io/images/congress/225x275/" + repData.bioguide_id + ".jpg"
-
-                            repToPush = {
-                                title: theName,
-                                image_url: imageURL,
-                                subtitle: theFullSubtitle,
-                                "default_action": {
-                                    "type": "web_url",
-                                    "url": theURL
-                                },
-                                "buttons": [{
-                                    "type": "phone_number",
-                                    "title": "Call DC Office",
-                                    "payload": "+1" + repData.phone
-                                }, {
-                                    "type": "postback",
-                                    "title": "Get a Script",
-                                    "payload": "GENERATE_SCRIPT_" + cPeople
-                                }, {
-                                    "type": "postback",
-                                    "title": "More Options",
-                                    "payload": "GENERATE_MORE_OPTIONS_" + cPeople
-                                }]
-                            }
-
-                            dataElements.push(repToPush) // Push rep into data array
-
-                            googleMapsClient.reverseGeocode({
-                                latlng: messageAttachments.payload.coordinates.lat + ',' + messageAttachments.payload.coordinates.long
-                            }, function(err, response) {
-                                if (!err) {
-                                    theLocationData = response.json.results;
-
-                                    if (repData.chamber.toLowerCase() == 'senate') {
-                                        chamberTitle = 'Senator'
-                                    } else if (repData.chamber.toLowerCase() == 'house') {
-                                        chamberTitle = 'Representative'
-                                    }
-
-                                    scriptDataPoint = {
-                                        constituent: 'James Fillmore',
-                                        city: theLocationData.results[3].address_components[0].long_name,
-                                        zip: theLocationData.results[5].address_components[0].long_name,
-                                        chamber_title: chamberTitle,
-                                        last_name: toTitleCase(repData.last_name),
-                                        phone_number: repData.phone
-                                    }
-
-                                    scriptData.push(scriptDataPoint)
-                                }
-                            });
+                        if (repData.party == 'R') {
+                            theParty = 'Republican'
+                        } else if (repData.party == 'D') {
+                            theParty = 'Democrat'
+                        } else if (repData.party == 'I') {
+                            theParty = 'Independent'
+                        } else {
+                            theParty = 'Party Error'
                         }
 
-                        // CALL SEND API
-                        var messageContent = {
-                            "recipient": {
-                                id: senderID
+                        theFullSubtitle = toTitleCase(repData.chamber) + " - " + theParty
+
+                        theURL = repData.website
+                        if (theURL[4] == ':') {
+                            theURL = theURL.replace('http', 'https')
+                        }
+                        //  theURL = repData.website.replace('http', 'https')
+                        //  console.log(theURL)
+
+                        imageURL = "https://theunitedstates.io/images/congress/225x275/" + repData.bioguide_id + ".jpg"
+
+                        repToPush = {
+                            title: theName,
+                            image_url: imageURL,
+                            subtitle: theFullSubtitle,
+                            "default_action": {
+                                "type": "web_url",
+                                "url": theURL
                             },
-                            "message": {
-                                "attachment": {
-                                    "type": "template",
-                                    "payload": {
-                                        "template_type": "generic",
-                                        "elements": dataElements
-                                    }
-                                },
-                            }
+                            "buttons": [{
+                                "type": "phone_number",
+                                "title": "Call DC Office",
+                                "payload": "+1" + repData.phone
+                            }, {
+                                "type": "postback",
+                                "title": "Get a Script",
+                                "payload": "GENERATE_SCRIPT_" + cPeople
+                            }, {
+                                "type": "postback",
+                                "title": "More Options",
+                                "payload": "GENERATE_MORE_OPTIONS_" + cPeople
+                            }]
                         }
-                        console.log('sending Now')
-                        callSendAPI(messageContent)
-                        console.log('should be sent')
-                    })
-            }
+
+                        dataElements.push(repToPush) // Push rep into data array
+
+                        googleMapsClient.reverseGeocode({
+                            latlng: messageAttachments.payload.coordinates.lat + ',' + messageAttachments.payload.coordinates.long
+                        }, function(err, response) {
+                            if (!err) {
+                                theLocationData = response.json.results;
+
+                                if (repData.chamber.toLowerCase() == 'senate') {
+                                    chamberTitle = 'Senator'
+                                } else if (repData.chamber.toLowerCase() == 'house') {
+                                    chamberTitle = 'Representative'
+                                }
+
+                                scriptDataPoint = {
+                                    constituent: 'James Fillmore',
+                                    city: theLocationData.results[3].address_components[0].long_name,
+                                    zip: theLocationData.results[5].address_components[0].long_name,
+                                    chamber_title: chamberTitle,
+                                    last_name: toTitleCase(repData.last_name),
+                                    phone_number: repData.phone
+                                }
+
+                                scriptData.push(scriptDataPoint)
+                            }
+                        });
+                    }
+
+                    // CALL SEND API
+                    var messageContent = {
+                        "recipient": {
+                            id: senderID
+                        },
+                        "message": {
+                            "attachment": {
+                                "type": "template",
+                                "payload": {
+                                    "template_type": "generic",
+                                    "elements": dataElements
+                                }
+                            },
+                        }
+                    }
+                    console.log('sending Now')
+                    callSendAPI(messageContent)
+                    console.log('should be sent')
+                }
+            })
         }
     }
 }
