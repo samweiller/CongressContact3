@@ -600,11 +600,11 @@ function receivedPostback(event) {
      sendTextMessage(senderID, "Hello! I'm Franklin. I can help you get in contact with your congresspeople.");
      setTimeout(function(){
         sendTextMessage(senderID, "All I need is your location to get started.")
-     }, 1000)
+     }, 4000)
 
      setTimeout(function(){
         sendLocationRequest(senderID)
-     }, 1500)
+     }, 2000)
 
 
 
