@@ -369,7 +369,7 @@ function receivedMessage(event) {
                     "message": {
                         "attachment": {
                             "type": "template",
-                            "payload": [{
+                            "payload": {
                                 "template_type": "generic",
                                 "elements": [{
                                     "title": "Welcome to Peter\'s Hats",
@@ -412,7 +412,7 @@ function receivedMessage(event) {
                                         "payload": "DEVELOPER_DEFINED_PAYLOAD"
                                     }]
                                 }]
-                            }]
+                            }
                         },
                     }
                 }
