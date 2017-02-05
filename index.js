@@ -233,7 +233,7 @@ request({
   greeting:{
      text:"This is an amazing greeting."
   }
-})
+
 
 }, function (error, response, body) {
     if (error) {
@@ -1038,10 +1038,6 @@ function callSendAPI(messageData) {
       console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
     }
   });
-}
-
-function establishSettings(data) {
-
 }
 
 // Start server
