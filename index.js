@@ -268,7 +268,7 @@ app.get('/webhook', function(req, res) {
 // SET UP ALL THREAD SETTINGS HERE
 
 request({
-  url: config.baseUrls.facebookGraph + '/v2.6/me/thread_settings',
+  url: 'https://graph.facebook.com/v2.6/me/thread_settings',
   qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
   method: 'POST',
   json: {
