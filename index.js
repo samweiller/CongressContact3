@@ -423,8 +423,9 @@ function receivedMessage(event) {
                         }]
                     }
                 }
-
+                console.log('sending Now')
                 callSendAPI(messageContent)
+                console.log('should be sent')
             })
 
         }
