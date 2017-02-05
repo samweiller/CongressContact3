@@ -405,11 +405,13 @@ function receivedMessage(event) {
                       theURL = theURL.replace('http', 'https')
                    }
                   //  theURL = repData.website.replace('http', 'https')
-                   console.log(theURL)
+                  //  console.log(theURL)
+
+                  imageURL = "https://theunitedstates.io/images/congress/450x550/" + repData.bioguide_id + ".jpg"
 
                    repToPush = {
                       title: theName,
-                      image_url: "https://petersfancybrownhats.com/company_image.png",
+                      image_url: imageURL,
                       subtitle: theFullSubtitle,
                       "default_action": {
                           "type": "web_url",
