@@ -597,7 +597,10 @@ function receivedPostback(event) {
   // sendTextMessage(senderID, "Postback called");
 
   if (payload.indexOf('WELCOME_PAYLOAD') > -1) {
-     sendTextMessage(senderID, "Hello! Welcome!")
+     sendTextMessage(senderID, "Hello! I'm Franklin. I can help you get in contact with your congresspeople.");
+     sendTextMessage(senderID, "All I need is your location to get started.")
+     sendLocationRequest(senderID)
+
  }
 }
 
@@ -955,6 +958,23 @@ function sendQuickReply(recipientId) {
   };
 
   callSendAPI(messageData);
+}
+
+function sendLocationRequest(recipientId) {
+   var messageData = {
+     recipient: {
+      id: recipientId
+     },
+        "message":{
+          "text":"Please share your location:",
+          "quick_replies":[
+            {
+              "content_type":"location",
+            }
+          ]
+        }
+      }
+      callSendAPI(messageData);
 }
 
 /*
