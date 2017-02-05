@@ -391,7 +391,7 @@ function receivedMessage(event) {
                 var dataPack = JSON.parse(body);
                 console.log(dataPack)
                 console.log(dataPack.length)
-                if (dataPack.length == 0) {
+                if (dataPack.length == undefined) {
                     sendTextMessage(senderID, "Looks like there are no congresspeople in that area. Please select another location using the menu.")
                 } else {
                     //  console.log(fooBar.results[0].last_name)
