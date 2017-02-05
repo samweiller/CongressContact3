@@ -138,6 +138,14 @@ request({
              payloadID: "ABOUT_THIS_BOT_PAYLOAD26",
              name: "hello"
           }
+         },
+         {
+           "type":"postback",
+           "title":"Test",
+           "payload": {
+             payloadID: "THIS_IS_MY_PAYLOAD",
+             name: "hello"
+          }
          }
        ]
    }
