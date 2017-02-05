@@ -598,8 +598,15 @@ function receivedPostback(event) {
 
   if (payload.indexOf('WELCOME_PAYLOAD') > -1) {
      sendTextMessage(senderID, "Hello! I'm Franklin. I can help you get in contact with your congresspeople.");
-     sendTextMessage(senderID, "All I need is your location to get started.")
-     sendLocationRequest(senderID)
+     setTimeout(function(){
+        sendTextMessage(senderID, "All I need is your location to get started.")
+     }, 1000)
+
+     setTimeout(function(){
+        sendLocationRequest(senderID)
+     }, 1500)
+
+
 
  }
 }
