@@ -106,7 +106,7 @@ request({
     method: 'POST',
     json: {
        setting_type: "domain_whitelisting",
-       "whitelisted_domains" : ["https://www.facebook.com", "https://petersfancybrownhats.com", "https://*.senate.gov"],
+       "whitelisted_domains" : ["https://www.facebook.com", "https://petersfancybrownhats.com", "https://senate.gov"],
        "domain_action_type": "add"
    }
 }, function(error, response, body) {
