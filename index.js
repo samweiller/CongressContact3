@@ -389,6 +389,8 @@ function receivedMessage(event) {
                 console.log('Upload successful!  Server responded with:', body);
                 console.log('LOOK HERE')
                 var dataPack = JSON.parse(body);
+                console.log(dataPack)
+                console.log(dataPack.length)
                 if (dataPack.length == 0) {
                     sendTextMessage(senderID, "Looks like there are no congresspeople in that area. Please select another location using the menu.")
                 } else {
