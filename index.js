@@ -408,9 +408,7 @@ function receivedMessage(event) {
                       subtitle: theFullSubtitle,
                       "default_action": {
                           "type": "web_url",
-                          "url": theURL,
-                          "messenger_extensions": false,
-                          "fallback_url": theURL
+                          "url": theURL
                       },
                       "buttons": [{
                           "type": "phone_number",
