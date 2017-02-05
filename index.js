@@ -367,9 +367,9 @@ function receivedMessage(event) {
                         id: recipientID
                     },
                     "message": {
-                        "attachment": [{
+                        "attachment": {
                             "type": "template",
-                            "payload": {
+                            "payload": [{
                                 "template_type": "generic",
                                 "elements": [{
                                     "title": "Welcome to Peter\'s Hats",
@@ -392,14 +392,10 @@ function receivedMessage(event) {
                                         "payload": "DEVELOPER_DEFINED_PAYLOAD"
                                     }]
                                 }]
-                            }
-                        },
-                        {
-                            "type": "template",
-                            "payload": {
+                            }, {
                                 "template_type": "generic",
                                 "elements": [{
-                                    "title": "Welcome to Peter\'s Hats AGAIN!",
+                                    "title": "Welcome to Peter\'s Hats",
                                     "image_url": "https://petersfancybrownhats.com/company_image.png",
                                     "subtitle": "We\'ve got the right hat for everyone.",
                                     "default_action": {
@@ -419,8 +415,8 @@ function receivedMessage(event) {
                                         "payload": "DEVELOPER_DEFINED_PAYLOAD"
                                     }]
                                 }]
-                            }
-                        }]
+                            }]
+                        },
                     }
                 }
                 console.log('sending Now')
@@ -485,10 +481,7 @@ function receivedPostback(event) {
     if (payload.indexOf('WELCOME_PAYLOAD') > -1) {
         sendTextMessage(senderID, "Hello! I'm Franklin. I can help you get in contact with your congresspeople.");
         setTimeout(function() {
-            sendTextMessage(senderID, "All I need is your location to get started.")
-            setTimeout(function() {
                 sendLocationRequest(senderID)
-            }, 1000)
         }, 2000)
     }
 }
@@ -672,7 +665,7 @@ function sendLocationRequest(recipientId) {
             id: recipientId
         },
         "message": {
-            "text": "Tap below to share your location.",
+            "text": "All I need is your location to get started.",
             "quick_replies": [{
                 "content_type": "location",
             }]
