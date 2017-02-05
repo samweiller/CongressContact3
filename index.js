@@ -400,16 +400,17 @@ function receivedMessage(event) {
 
                    theFullSubtitle = toTitleCase(repData.chamber) + " - " + theParty
 
+                   theURL = repData.website.replace('http', 'https')
+
                    repToPush = {
                       title: theName,
                       image_url: "https://petersfancybrownhats.com/company_image.png",
                       subtitle: theFullSubtitle,
                       "default_action": {
                           "type": "web_url",
-                          "url": repData.website.replace('http', 'https'),
+                          "url": theURL,
                           "messenger_extensions": false,
-                          "webview_height_ratio": "tall",
-                          "fallback_url": repData.website.replace('http', 'https')
+                          "fallback_url": theURL
                       },
                       "buttons": [{
                           "type": "phone_number",
