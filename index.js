@@ -126,27 +126,27 @@ request({
        setting_type: "call_to_actions",
        "thread_state" : "existing_thread",
        "call_to_actions":[
-         {
-           "type":"postback",
-           "title":"Find More Representatives",
-           "payload": "RESTART_REP_SEARCH_PAYLOAD"
-         },
-         {
-           "type":"postback",
-           "title":"About Hana",
-           "payload": {
-             payloadID: "ABOUT_THIS_BOT_PAYLOAD26",
-             name: "hello"
-          }
-         },
-         {
-           "type":"postback",
-           "title":"Test",
-           "payload": {
-             payloadID: "THIS_IS_MY_PAYLOAD",
-             name: "hello"
-          }
-         }
+         // {
+         //   "type":"postback",
+         //   "title":"Find More Representatives",
+         //   "payload": "RESTART_REP_SEARCH_PAYLOAD"
+         // },
+         // {
+         //   "type":"postback",
+         //   "title":"About Hana",
+         //   "payload": {
+         //     payloadID: "ABOUT_THIS_BOT_PAYLOAD26",
+         //     name: "hello"
+         //  }
+         // },
+         // {
+         //   "type":"postback",
+         //   "title":"Test",
+         //   "payload": {
+         //     payloadID: "THIS_IS_MY_PAYLOAD",
+         //     name: "hello"
+         //  }
+         // }
        ]
    }
 }, function(error, response, body) {
