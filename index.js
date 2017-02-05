@@ -377,14 +377,14 @@ function receivedMessage(event) {
                                     "subtitle": "We\'ve got the right hat for everyone.",
                                     "default_action": {
                                         "type": "web_url",
-                                        "url": "http://www.facebook.com",
+                                        "url": "https://www.facebook.com",
                                         "messenger_extensions": true,
                                         "webview_height_ratio": "tall",
-                                        "fallback_url": "http://www.facebook.com"
+                                        "fallback_url": "https://www.facebook.com"
                                     },
                                     "buttons": [{
                                         "type": "web_url",
-                                        "url": "http://www.facebook.com",
+                                        "url": "https://www.facebook.com",
                                         "title": "View Website"
                                     }, {
                                         "type": "postback",
@@ -397,14 +397,14 @@ function receivedMessage(event) {
                                     "subtitle": "We\'ve got the right hat for everyone.",
                                     "default_action": {
                                         "type": "web_url",
-                                        "url": "http://www.facebook.com",
+                                        "url": "https://www.facebook.com",
                                         "messenger_extensions": true,
                                         "webview_height_ratio": "tall",
-                                        "fallback_url": "http://www.facebook.com"
+                                        "fallback_url": "https://www.facebook.com"
                                     },
                                     "buttons": [{
                                         "type": "web_url",
-                                        "url": "https://petersfancybrownhats.com",
+                                        "url": "https://facebook.com",
                                         "title": "View Website"
                                     }, {
                                         "type": "postback",
