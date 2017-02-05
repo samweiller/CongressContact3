@@ -433,7 +433,8 @@ function receivedMessage(event) {
                       }, {
                           "type": "postback",
                           "title": "Get a Script",
-                          "payload": "GENERATE_SCRIPT"
+                          "payload": "GENERATE_SCRIPT",
+                          "otherData": "Hello!"
                       }, {
                           "type": "postback",
                           "title": "More Options",
@@ -513,6 +514,9 @@ function receivedPostback(event) {
 
     console.log("Received postback for user %d and page %d with payload '%s' " +
         "at %d", senderID, recipientID, payload, timeOfPostback);
+
+        console.log('LOOK HERE')
+        console.log(event.postback)
 
     // When a postback is called, we'll send a message back to the sender to
     // let them know it was successful
