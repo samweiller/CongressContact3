@@ -344,23 +344,86 @@ function receivedMessage(event) {
                 //   var theMessageContent = "Your location is Lat: " + messageAttachments.payload.coordinates.lat + ", Long: " + messageAttachments.payload.coordinates.long + "."
                 //   sendTextMessage(senderID, theMessageContent)
 
-                // Get Reps from Sunight
-                request({
-                    uri: 'https://congress.api.sunlightfoundation.com/legislators/locate',
-                    qs: {
-                        latitude: messageAttachments.payload.coordinates.lat,
-                        longitude: messageAttachments.payload.coordinates.long
+            // Get Reps from Sunight
+            request({
+                uri: 'https://congress.api.sunlightfoundation.com/legislators/locate',
+                qs: {
+                    latitude: messageAttachments.payload.coordinates.lat,
+                    longitude: messageAttachments.payload.coordinates.long
+                },
+                method: 'GET',
+            }, function(error, response, body) {
+                if (error) {
+                    return console.error('upload failed:', error);
+                }
+                console.log('Upload successful!  Server responded with:', body);
+                console.log('LOOK HERE')
+                    //   console.log(response)
+                sendTextMessage(senderID, "Got it!")
+
+                // CALL SEND API
+                var messageContent = {
+                    "recipient ": {
+                        "id": "USER_ID"
                     },
-                    method: 'GET',
-                }, function(error, response, body) {
-                    if (error) {
-                        return console.error('upload failed:', error);
+                    "message": {
+                        "attachment": [{
+                            "type": "template",
+                            "payload": {
+                                "template_type": "generic",
+                                "elements": [{
+                                    "title": "Welcome to Peter\'s Hats",
+                                    "image_url": "https://petersfancybrownhats.com/company_image.png",
+                                    "subtitle": "We\'ve got the right hat for everyone.",
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": "https://peterssendreceiveapp.ngrok.io/view?item=103",
+                                        "messenger_extensions": true,
+                                        "webview_height_ratio": "tall",
+                                        "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+                                    },
+                                    "buttons": [{
+                                        "type": "web_url",
+                                        "url": "https://petersfancybrownhats.com",
+                                        "title": "View Website"
+                                    }, {
+                                        "type": "postback",
+                                        "title": "Start Chatting",
+                                        "payload": "DEVELOPER_DEFINED_PAYLOAD"
+                                    }]
+                                }]
+                            }
+                        },
+                        {
+                            "type": "template",
+                            "payload": {
+                                "template_type": "generic",
+                                "elements": [{
+                                    "title": "Welcome to Peter\'s Hats AGAIN!",
+                                    "image_url": "https://petersfancybrownhats.com/company_image.png",
+                                    "subtitle": "We\'ve got the right hat for everyone.",
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": "https://peterssendreceiveapp.ngrok.io/view?item=103",
+                                        "messenger_extensions": true,
+                                        "webview_height_ratio": "tall",
+                                        "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+                                    },
+                                    "buttons": [{
+                                        "type": "web_url",
+                                        "url": "https://petersfancybrownhats.com",
+                                        "title": "View Website"
+                                    }, {
+                                        "type": "postback",
+                                        "title": "Start Chatting",
+                                        "payload": "DEVELOPER_DEFINED_PAYLOAD"
+                                    }]
+                                }]
+                            }
+                        }]
                     }
-                    console.log('Upload successful!  Server responded with:', body);
-                    console.log('LOOK HERE')
-                  //   console.log(response)
-                  sendTextMessage(senderID, "Got it!")
-                })
+                }
+            })
 
         }
     }
@@ -422,8 +485,8 @@ function receivedPostback(event) {
             sendTextMessage(senderID, "All I need is your location to get started.")
             setTimeout(function() {
                 sendLocationRequest(senderID)
-            }, 2000)
-        }, 4000)
+            }, 1000)
+        }, 2000)
     }
 }
 
