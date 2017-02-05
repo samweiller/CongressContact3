@@ -85,10 +85,12 @@ request({
         access_token: PAGE_ACCESS_TOKEN
     },
     method: 'POST',
-    setting_type: "greeting",
-    greeting: {
-        text: "This is an amazing greeting."
-    }
+    json: {
+       setting_type: "greeting",
+       greeting: {
+           text: "This is an amazing greeting."
+       }
+   }
 }, function(error, response, body) {
     if (error) {
         return console.error('upload failed:', error);
@@ -102,9 +104,11 @@ request({
         access_token: PAGE_ACCESS_TOKEN
     },
     method: 'POST',
-    setting_type: "domain_whitelisting",
-    "whitelisted_domains" : ["https://facebook.com", "https://petersfancybrownhats.com"],
-    "domain_action_type": "add"
+    json: {
+       setting_type: "domain_whitelisting",
+       "whitelisted_domains" : ["https://facebook.com", "https://petersfancybrownhats.com"],
+       "domain_action_type": "add"
+   }
 }, function(error, response, body) {
     if (error) {
         return console.error('upload failed:', error);
