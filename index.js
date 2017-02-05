@@ -134,18 +134,7 @@ request({
          {
            "type":"postback",
            "title":"About Hana",
-           "payload": {
-             payloadID: "ABOUT_THIS_BOT_PAYLOAD26",
-             name: "hello"
-          }
-         },
-         {
-           "type":"postback",
-           "title":"Test",
-           "payload": {
-             payloadID: "THIS_IS_MY_PAYLOAD",
-             name: "hello"
-          }
+           "payload": "ABOUT_THIS_BOT_PAYLOAD2"
          }
        ]
    }
@@ -444,7 +433,7 @@ function receivedMessage(event) {
                       }, {
                           "type": "postback",
                           "title": "Get a Script",
-                          "payload": "GENERATE_SCRIPT"
+                          "payload": "GENERATE_SCRIPT_" + cPeople
                       }, {
                           "type": "postback",
                           "title": "More Options",
@@ -544,6 +533,9 @@ function receivedPostback(event) {
                  sendLocationRequest(senderID)
          }, 2000)
       }, 1000)
+   } else if (payload.indexOf('GENERATE_SCRIPT') > -1) {
+      repIndex = payload[payload.length - 1];
+      console.log(dataElements[repIndex])
    }
 }
 
