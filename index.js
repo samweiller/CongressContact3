@@ -358,7 +358,8 @@ function receivedMessage(event) {
                     }
                     console.log('Upload successful!  Server responded with:', body);
                     console.log('LOOK HERE')
-                    console.log(response)
+                  //   console.log(response)
+                  sendTextMessage(senderID, "Got it!")
                 })
 
         }
