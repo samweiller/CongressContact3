@@ -378,7 +378,7 @@ function receivedMessage(event) {
                 }
                 console.log('Upload successful!  Server responded with:', body);
                 console.log('LOOK HERE')
-                var fooBar = body;
+                var fooBar = JSON.parse(body);
                 console.log(fooBar)
                 sendTextMessage(senderID, "Got it!")
 
