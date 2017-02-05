@@ -407,9 +407,9 @@ function receivedMessage(event) {
                       "default_action": {
                           "type": "web_url",
                           "url": repData.website.replace('http', 'https'),
-                          "messenger_extensions": true,
+                          "messenger_extensions": false,
                           "webview_height_ratio": "tall",
-                          "fallback_url": "https://www.facebook.com"
+                          "fallback_url": repData.website.replace('http', 'https')
                       },
                       "buttons": [{
                           "type": "phone_number",
