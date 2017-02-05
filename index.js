@@ -401,6 +401,7 @@ function receivedMessage(event) {
                    theFullSubtitle = toTitleCase(repData.chamber) + " - " + theParty
 
                    theURL = repData.website.replace('http', 'https')
+                   console.log(theURL)
 
                    repToPush = {
                       title: theName,
