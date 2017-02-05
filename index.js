@@ -377,14 +377,14 @@ function receivedMessage(event) {
                                     "subtitle": "We\'ve got the right hat for everyone.",
                                     "default_action": {
                                         "type": "web_url",
-                                        "url": "https://peterssendreceiveapp.ngrok.io/view?item=103",
+                                        "url": "#",
                                         "messenger_extensions": true,
                                         "webview_height_ratio": "tall",
-                                        "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+                                        "fallback_url": "#"
                                     },
                                     "buttons": [{
                                         "type": "web_url",
-                                        "url": "https://petersfancybrownhats.com",
+                                        "url": "#",
                                         "title": "View Website"
                                     }, {
                                         "type": "postback",
@@ -397,10 +397,10 @@ function receivedMessage(event) {
                                     "subtitle": "We\'ve got the right hat for everyone.",
                                     "default_action": {
                                         "type": "web_url",
-                                        "url": "https://peterssendreceiveapp.ngrok.io/view?item=103",
+                                        "url": "#",
                                         "messenger_extensions": true,
                                         "webview_height_ratio": "tall",
-                                        "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+                                        "fallback_url": "#"
                                     },
                                     "buttons": [{
                                         "type": "web_url",
