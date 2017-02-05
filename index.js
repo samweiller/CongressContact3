@@ -351,7 +351,7 @@ function receivedMessage(event) {
                         latitude: messageAttachments.payload.coordinates.lat,
                         longitude: messageAttachments.payload.coordinates.long
                     },
-                    method: 'POST',
+                    method: 'GET',
                 }, function(error, response, body) {
                     if (error) {
                         return console.error('upload failed:', error);
