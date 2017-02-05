@@ -256,7 +256,7 @@ function receivedMessage(event) {
 
     // You may get a text or attachment but not both
     var messageText = message.text;
-    var messageAttachments = message.attachments;
+    var messageAttachments = message.attachments[0];
     var quickReply = message.quick_reply;
 
     if (isEcho) {
