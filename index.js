@@ -538,7 +538,7 @@ function receivedPostback(event) {
       }, 1000)
    } else if (payload.indexOf('GENERATE_SCRIPT') > -1) {
       repIndex = payload[payload.length - 1];
-      console.log(masterRepData.repIndex])
+      console.log(masterRepData[repIndex])
    }
 }
 
