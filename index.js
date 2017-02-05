@@ -423,6 +423,8 @@ function receivedMessage(event) {
                         }]
                     }
                 }
+
+                callSendAPI(messageContent)
             })
 
         }
