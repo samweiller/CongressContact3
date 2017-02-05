@@ -462,7 +462,7 @@ function receivedMessage(event) {
                             }
 
                             scriptDataPoint = {
-                                constituent: ,
+                                constituent: 'James Fillmore',
                                 city: theLocationData.results[3].address_components[0].long_name,
                                 zip: theLocationData.results[5].address_components[0].long_name,
                                 chamber_title: chamberTitle,
@@ -571,7 +571,7 @@ function receivedPostback(event) {
 
         scriptTemp = scriptData[repIndex]
 
-        talkingScript = "Hello. My name is BLANK. I am a constituent from " + scriptTemp.city + ", zip code " + scriptTemp.zip + ". I do not need a response.  I am in favor of ____/opposed to ____, and I encourage " + scriptTemp.chamber_title + " " + last_name + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
+        talkingScript = "Hello. My name is " + scriptTemp.constituent + ". I am a constituent from " + scriptTemp.city + ", zip code " + scriptTemp.zip + ". I do not need a response.  I am in favor of ____/opposed to ____, and I encourage " + scriptTemp.chamber_title + " " + last_name + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
 
         // Send script with a call button.
 
