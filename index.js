@@ -7,7 +7,8 @@ const
     crypto = require('crypto'),
     express = require('express'),
     https = require('https'),
-    request = require('request');
+    request = require('request'),
+    lodash = require('lodash');
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -378,9 +379,56 @@ function receivedMessage(event) {
                 }
                 console.log('Upload successful!  Server responded with:', body);
                 console.log('LOOK HERE')
-                var fooBar = JSON.parse(body);
-                console.log(fooBar.results[0].last_name)
+                var dataPack = JSON.parse(body);
+               //  console.log(fooBar.results[0].last_name)
                 sendTextMessage(senderID, "Got it!")
+
+                // build congressperson data cards
+                dataElements = []
+                for (cPeople = 0; cPeople < dataPack.results.length; cPeople++) {
+                   repData = dataPack.results[cPeople];
+                   theName = toTitleCase(repData.first_name) + " " + toTitleCase(repData.last_name)
+
+                   if (repData.party == 'R') {
+                      theParty = 'Republican'
+                   } else if (repData.party == 'D') {
+                      theParty = 'Democrat'
+                   } else if (repData.party == 'I') {
+                      theParty = 'Independent'
+                   } else {
+                      theParty = 'Party Error'
+                   }
+
+                   theFullSubtitle = toTitleCase(repData.chamber) + " - " + theParty
+
+                   repToPush = {
+                      title: theName,
+                      image_url: "https://petersfancybrownhats.com/company_image.png",
+                      subtitle: theFullSubtitle,
+                      "default_action": {
+                          "type": "web_url",
+                          "url": "https://www.facebook.com",
+                          "messenger_extensions": true,
+                          "webview_height_ratio": "tall",
+                          "fallback_url": "https://www.facebook.com"
+                      },
+                      "buttons": [{
+                          "type": "phone_number",
+                          "title": "Call DC Office",
+                          "payload": "+1" + repData.phone
+                      }, {
+                          "type": "postback",
+                          "title": "Get a Script",
+                          "payload": "GENERATE_SCRIPT"
+                      }, {
+                          "type": "postback",
+                          "title": "More Options",
+                          "payload": "GENERATE_MORE_OPTIONS"
+                      }]
+                   }
+
+                   dataElements.push(repToPush) // Push rep into data array
+                }
 
                 // CALL SEND API
                 var messageContent = {
@@ -392,47 +440,7 @@ function receivedMessage(event) {
                             "type": "template",
                             "payload": {
                                 "template_type": "generic",
-                                "elements": [{
-                                    "title": "Welcome to Peter\'s Hats",
-                                    "image_url": "https://petersfancybrownhats.com/company_image.png",
-                                    "subtitle": "We\'ve got the right hat for everyone.",
-                                    "default_action": {
-                                        "type": "web_url",
-                                        "url": "https://www.facebook.com",
-                                        "messenger_extensions": true,
-                                        "webview_height_ratio": "tall",
-                                        "fallback_url": "https://www.facebook.com"
-                                    },
-                                    "buttons": [{
-                                        "type": "web_url",
-                                        "url": "https://www.facebook.com",
-                                        "title": "View Website"
-                                    }, {
-                                        "type": "postback",
-                                        "title": "Start Chatting",
-                                        "payload": "DEVELOPER_DEFINED_PAYLOAD"
-                                    }]
-                            }, {
-                                    "title": "Welcome to Peter\'s Hats",
-                                    "image_url": "https://petersfancybrownhats.com/company_image.png",
-                                    "subtitle": "We\'ve got the right hat for everyone.",
-                                    "default_action": {
-                                        "type": "web_url",
-                                        "url": "https://www.facebook.com",
-                                        "messenger_extensions": true,
-                                        "webview_height_ratio": "tall",
-                                        "fallback_url": "https://www.facebook.com"
-                                    },
-                                    "buttons": [{
-                                        "type": "web_url",
-                                        "url": "https://www.facebook.com",
-                                        "title": "View Website"
-                                    }, {
-                                        "type": "postback",
-                                        "title": "Start Chatting",
-                                        "payload": "DEVELOPER_DEFINED_PAYLOAD"
-                                    }]
-                                }]
+                                "elements": dataElements
                             }
                         },
                     }
@@ -801,6 +809,12 @@ function callSendAPI(messageData) {
         }
     });
 }
+
+function toTitleCase(str)
+{
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
 
 // Start server
 // Webhooks must be available via SSL with a certificate signed by a valid
