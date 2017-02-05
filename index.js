@@ -103,7 +103,7 @@ request({
     },
     method: 'POST',
     setting_type: "domain_whitelisting",
-    "whitelisted_domains" : ["https://www.facebook.com"],
+    "whitelisted_domains" : ["https://www.facebook.com", "https://petersfancybrownhats.com"],
     "domain_action_type": "add"
 }, function(error, response, body) {
     if (error) {
