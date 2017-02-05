@@ -129,12 +129,15 @@ request({
          {
            "type":"postback",
            "title":"Find More Representatives",
-           "payload":"RESTART_REP_SEARCH_PAYLOAD"
+           "payload": "RESTART_REP_SEARCH_PAYLOAD"
          },
          {
            "type":"postback",
            "title":"About Hana",
-           "payload":"ABOUT_THIS_BOT_PAYLOAD"
+           "payload": {
+             payloadID: "ABOUT_THIS_BOT_PAYLOAD",
+             name: "hello"
+          }
          }
        ]
    }
