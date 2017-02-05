@@ -335,15 +335,33 @@ function receivedMessage(event) {
                 sendTextMessage(senderID, messageText);
         }
     } else if (messageAttachments) {
-      messageAttachments = messageAttachments[0]
+        messageAttachments = messageAttachments[0]
         sendTextMessage(senderID, "Message with attachment received");
-        console.log('LOOK HERE')
-        console.log(messageAttachments)
-      if (messageAttachments.type === 'location') {
-         //   processLocation(sender, messageAttachments.payload.coordinates);
-           var theMessageContent = "Your location is Lat: " + messageAttachments.payload.coordinates.lat + ", Long: " + messageAttachments.payload.coordinates.long + "."
-           sendTextMessage(senderID, theMessageContent)
-      }
+        //   console.log('LOOK HERE')
+        //   console.log(messageAttachments)
+        if (messageAttachments.type === 'location') {
+            sendTextMessage(senderID, "Excellent! Hang on while I find your representatives.")
+                //   var theMessageContent = "Your location is Lat: " + messageAttachments.payload.coordinates.lat + ", Long: " + messageAttachments.payload.coordinates.long + "."
+                //   sendTextMessage(senderID, theMessageContent)
+
+                // Get Reps from Sunight
+                request({
+                    uri: 'https://congress.api.sunlightfoundation.com/legislators/locate',
+                    qs: {
+                        latitude: messageAttachments.payload.coordinates.lat,
+                        longitude: messageAttachments.payload.coordinates.long
+                    },
+                    method: 'POST',
+                }, function(error, response, body) {
+                    if (error) {
+                        return console.error('upload failed:', error);
+                    }
+                    console.log('Upload successful!  Server responded with:', body);
+                    console.log('LOOK HERE')
+                    console.log(response)
+                })
+
+        }
     }
 }
 
