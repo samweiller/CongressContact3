@@ -378,7 +378,7 @@ function receivedMessage(event) {
                 }
                 console.log('Upload successful!  Server responded with:', body);
                 console.log('LOOK HERE')
-                    //   console.log(response)
+                console.log(body.results[0])
                 sendTextMessage(senderID, "Got it!")
 
                 // CALL SEND API
