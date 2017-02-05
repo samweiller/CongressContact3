@@ -256,7 +256,7 @@ function receivedMessage(event) {
 
     // You may get a text or attachment but not both
     var messageText = message.text;
-    var messageAttachments = message.attachments[0];
+    var messageAttachments = message.attachments;
     var quickReply = message.quick_reply;
 
     if (isEcho) {
@@ -335,6 +335,7 @@ function receivedMessage(event) {
                 sendTextMessage(senderID, messageText);
         }
     } else if (messageAttachments) {
+      messageAttachments = messageAttachments[0]
         sendTextMessage(senderID, "Message with attachment received");
         console.log('LOOK HERE')
         console.log(messageAttachments)
