@@ -121,7 +121,7 @@ request({
     qs: {
         access_token: PAGE_ACCESS_TOKEN
     },
-    method: 'POST',
+    method: 'PUT',
     json: {
        setting_type: "call_to_actions",
        "thread_state" : "existing_thread",
