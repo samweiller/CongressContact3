@@ -364,7 +364,7 @@ function receivedMessage(event) {
                 // CALL SEND API
                 var messageContent = {
                     "recipient ": {
-                        "id": senderID
+                        "id": recipientID
                     },
                     "message": {
                         "attachment": [{
