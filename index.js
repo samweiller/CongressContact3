@@ -596,9 +596,9 @@ function receivedPostback(event) {
             }
         };
 
-        setTimeout(funciton() {
+        setTimeout(function() {
            sendTextMessage(senderID, "You can use this script when you call.")
-           setTimeout(funciton() {
+           setTimeout(function() {
               callSendAPI(messageData);
            }, 1000)
         }, 1000)
