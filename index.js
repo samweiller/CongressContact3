@@ -265,6 +265,29 @@ app.get('/webhook', function(req, res) {
   }
 });
 
+// SET UP ALL THREAD SETTINGS HERE
+
+request({
+  url: config.baseUrls.facebookGraph + '/v2.6/me/thread_settings',
+  qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
+  method: 'POST',
+  json: {
+    "setting_type":"call_to_actions",
+    "thread_state":"new_thread",
+    "call_to_actions":[
+      {
+        "payload": "WELCOME_PAYLOAD"
+      }
+    ]
+  }
+}, function(error, response, body) {
+  if (error) {
+    console.log('Error sending message: ', error);
+  } else if (response.body.error) {
+    console.log('Error: ', response.body.error);
+  }
+});
+
 request({
   uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
   qs: { access_token: PAGE_ACCESS_TOKEN },
@@ -571,7 +594,11 @@ function receivedPostback(event) {
 
   // When a postback is called, we'll send a message back to the sender to
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called");
+  // sendTextMessage(senderID, "Postback called");
+
+  if (payload.indexOf('WELCOME_PAYLOAD') > -1) {
+     sendTextMessage(senderID, "Hello! Welcome!")
+ }
 }
 
 /*
