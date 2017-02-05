@@ -1,213 +1,3 @@
-// 'use strict'
-//
-// const express = require('express')
-// const bodyParser = require('body-parser')
-// const request = require('request')
-// const app = express()
-//
-// require('dotenv').config();
-//
-// const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
-//
-// app.set('port', (process.env.PORT || 5000))
-//
-// // Process application/x-www-form-urlencoded
-// app.use(bodyParser.urlencoded({extended: false}))
-//
-// // Process application/json
-// app.use(bodyParser.json())
-//
-// // Index route
-// app.get('/', function (req, res) {
-//     res.send('Hello world, I am a chat bot')
-// })
-//
-// // for Facebook verification
-// app.get('/webhook', function (req, res) {
-//     if (req.query['hub.verify_token'] === 'my_password_is_my_voice_blah_verify_me') {
-//         res.send(req.query['hub.challenge'])
-//     }
-//     res.send('Error, wrong token')
-// })
-//
-// // Spin up the server
-// app.listen(app.get('port'), function() {
-//     console.log('running on port', app.get('port'))
-// })
-//
-// app.post('/webhook', function (req, res) {
-//   var data = req.body;
-//
-//   // Make sure this is a page subscription
-//   if (data.object === 'page') {
-//
-//     // Iterate over each entry - there may be multiple if batched
-//     data.entry.forEach(function(entry) {
-//       var pageID = entry.id;
-//       var timeOfEvent = entry.time;
-//
-//       // Iterate over each messaging event
-//       entry.messaging.forEach(function(event) {
-//         if (event.message) {
-//           receivedMessage(event);
-//        } else if (event.postback) {
-//        receivedPostback(event);
-//         } else {
-//           console.log("Webhook received unknown event: ", event);
-//         }
-//       });
-//     });
-//
-//     // Assume all went well.
-//     //
-//     // You must send back a 200, within 20 seconds, to let us know
-//     // you've successfully received the callback. Otherwise, the request
-//     // will time out and we will keep trying to resend.
-//     res.sendStatus(200);
-//   }
-// });
-//
-// function receivedMessage(event) {
-//   var senderID = event.sender.id;
-//   var recipientID = event.recipient.id;
-//   var timeOfMessage = event.timestamp;
-//   var message = event.message;
-//
-//   console.log("Received message for user %d and page %d at %d with message:",
-//     senderID, recipientID, timeOfMessage);
-//   console.log(JSON.stringify(message));
-//
-//   var messageId = message.mid;
-//
-//   var messageText = message.text;
-//   var messageAttachments = message.attachments;
-//
-//   if (messageText) {
-//
-//     // If we receive a text message, check to see if it matches a keyword
-//     // and send back the example. Otherwise, just echo the text we received.
-//     switch (messageText) {
-//       case 'generic':
-//         sendGenericMessage(senderID);
-//         break;
-//
-//       default:
-//         sendTextMessage(senderID, messageText);
-//     }
-//   } else if (messageAttachments) {
-//     sendTextMessage(senderID, "Message with attachment received");
-//   }
-// }
-//
-// function sendGenericMessage(recipientId) {
-//   var messageData = {
-//     recipient: {
-//       id: recipientId
-//     },
-//     message: {
-//       attachment: {
-//         type: "template",
-//         payload: {
-//           template_type: "generic",
-//           elements: [{
-//             title: "rift",
-//             subtitle: "Next-generation virtual reality",
-//             item_url: "https://www.oculus.com/en-us/rift/",
-//             image_url: "http://messengerdemo.parseapp.com/img/rift.png",
-//             buttons: [{
-//               type: "web_url",
-//               url: "https://www.oculus.com/en-us/rift/",
-//               title: "Open Web URL"
-//             }, {
-//               type: "postback",
-//               title: "Call Postback",
-//               payload: "Payload for first bubble",
-//             }],
-//           }, {
-//             title: "touch",
-//             subtitle: "Your Hands, Now in VR",
-//             item_url: "https://www.oculus.com/en-us/touch/",
-//             image_url: "http://messengerdemo.parseapp.com/img/touch.png",
-//             buttons: [{
-//               type: "web_url",
-//               url: "https://www.oculus.com/en-us/touch/",
-//               title: "Open Web URL"
-//             }, {
-//               type: "postback",
-//               title: "Call Postback",
-//               payload: "Payload for second bubble",
-//             }]
-//           }]
-//         }
-//       }
-//     }
-//   };
-//
-//   callSendAPI(messageData);
-// }
-//
-// function sendTextMessage(recipientId, messageText) {
-//   var messageData = {
-//     recipient: {
-//       id: recipientId
-//     },
-//     message: {
-//       text: messageText
-//     }
-//   };
-//
-//   callSendAPI(messageData);
-// }
-//
-// function callSendAPI(messageData) {
-//   request({
-//     uri: 'https://graph.facebook.com/v2.6/me/messages',
-//     qs: { access_token: PAGE_ACCESS_TOKEN },
-//     method: 'POST',
-//     json: messageData
-//
-//   }, function (error, response, body) {
-//     if (!error && response.statusCode == 200) {
-//       var recipientId = body.recipient_id;
-//       var messageId = body.message_id;
-//
-//       console.log("Successfully sent generic message with id %s to recipient %s",
-//         messageId, recipientId);
-//     } else {
-//       console.error("Unable to send message.");
-//       console.error(response);
-//       console.error(error);
-//     }
-//   });
-// }
-//
-// function receivedPostback(event) {
-//   var senderID = event.sender.id;
-//   var recipientID = event.recipient.id;
-//   var timeOfPostback = event.timestamp;
-//
-//   // The 'payload' param is a developer-defined field which is set in a postback
-//   // button for Structured Messages.
-//   var payload = event.postback.payload;
-//
-//   console.log("Received postback for user %d and page %d with payload '%s' " +
-//     "at %d", senderID, recipientID, payload, timeOfPostback);
-//
-//   // When a postback is called, we'll send a message back to the sender to
-//   // let them know it was successful
-//   sendTextMessage(senderID, "Postback called");
-// }
-
-
-/*
- * Copyright 2016-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
 /* jshint node: true, devel: true */
 // 'use strict';
 
@@ -268,7 +58,6 @@ app.get('/webhook', function(req, res) {
 });
 
 // SET UP ALL THREAD SETTINGS HERE
-
 request({
     url: 'https://graph.facebook.com/v2.6/me/thread_settings',
     qs: {
@@ -546,7 +335,12 @@ function receivedMessage(event) {
                 sendTextMessage(senderID, messageText);
         }
     } else if (messageAttachments) {
-        sendTextMessage(senderID, "Message with attachment received");
+      //   sendTextMessage(senderID, "Message with attachment received");
+      if (messageAttachments.type === 'location') {
+         //   processLocation(sender, messageAttachments.payload.coordinates);
+           var theMessageContent = "Your location is Lat: " + messageAttachments.payload.coordinates.lat + ", Long: " + messageAttachments.payload.coordinates.long + "."
+           sendTextMessage(senderID, theMessageContent)
+      }
     }
 }
 
@@ -647,119 +441,6 @@ function receivedAccountLink(event) {
 
     console.log("Received account link event with for user %d with status %s " +
         "and auth code %s ", senderID, status, authCode);
-}
-
-/*
- * Send an image using the Send API.
- *
- */
-function sendImageMessage(recipientId) {
-    // sendReadReceipt(recipientId)
-    sendTypingOn(recipientId)
-    var messageData = {
-        recipient: {
-            id: recipientId
-        },
-        message: {
-            attachment: {
-                type: "image",
-                payload: {
-                    url: "http://www.personal.psu.edu/users/r/j/rjq5009/mushroom.png"
-                }
-            }
-        }
-    };
-
-    callSendAPI(messageData);
-    // sendTypingOff(recipientId)
-}
-
-/*
- * Send a Gif using the Send API.
- *
- */
-function sendGifMessage(recipientId) {
-    var messageData = {
-        recipient: {
-            id: recipientId
-        },
-        message: {
-            attachment: {
-                type: "image",
-                payload: {
-                    url: "http://i.giphy.com/ZcD6INPX9REzu.gif"
-                }
-            }
-        }
-    };
-
-    callSendAPI(messageData);
-}
-
-/*
- * Send audio using the Send API.
- *
- */
-function sendAudioMessage(recipientId) {
-    var messageData = {
-        recipient: {
-            id: recipientId
-        },
-        message: {
-            attachment: {
-                type: "audio",
-                payload: {
-                    url: SERVER_URL + "/assets/sample.mp3"
-                }
-            }
-        }
-    };
-
-    callSendAPI(messageData);
-}
-
-/*
- * Send a video using the Send API.
- *
- */
-function sendVideoMessage(recipientId) {
-    var messageData = {
-        recipient: {
-            id: recipientId
-        },
-        message: {
-            attachment: {
-                type: "video",
-                payload: {
-                    url: SERVER_URL + "/assets/allofus480.mov"
-                }
-            }
-        }
-    };
-
-    callSendAPI(messageData);
-}
-
-/*
- * Send a file using the Send API.
- *
- */
-function sendFileMessage(recipientId) {
-    var messageData = {
-        recipient: {
-            id: recipientId
-        },
-        message: {
-            attachment: {
-                type: "file",
-                payload: {
-                    url: SERVER_URL + "/assets/test.txt"
-                }
-            }
-        }
-    };
-
-    callSendAPI(messageData);
 }
 
 /*
@@ -868,72 +549,6 @@ function sendGenericMessage(recipientId) {
 }
 
 /*
- * Send a receipt message using the Send API.
- *
- */
-function sendReceiptMessage(recipientId) {
-    // Generate a random receipt ID as the API requires a unique ID
-    var receiptId = "order" + Math.floor(Math.random() * 1000);
-
-    var messageData = {
-        recipient: {
-            id: recipientId
-        },
-        message: {
-            attachment: {
-                type: "template",
-                payload: {
-                    template_type: "receipt",
-                    recipient_name: "Peter Chang",
-                    order_number: receiptId,
-                    currency: "USD",
-                    payment_method: "Visa 1234",
-                    timestamp: "1428444852",
-                    elements: [{
-                        title: "Oculus Rift",
-                        subtitle: "Includes: headset, sensor, remote",
-                        quantity: 1,
-                        price: 599.00,
-                        currency: "USD",
-                        image_url: SERVER_URL + "/assets/riftsq.png"
-                    }, {
-                        title: "Samsung Gear VR",
-                        subtitle: "Frost White",
-                        quantity: 1,
-                        price: 99.99,
-                        currency: "USD",
-                        image_url: SERVER_URL + "/assets/gearvrsq.png"
-                    }],
-                    address: {
-                        street_1: "1 Hacker Way",
-                        street_2: "",
-                        city: "Menlo Park",
-                        postal_code: "94025",
-                        state: "CA",
-                        country: "US"
-                    },
-                    summary: {
-                        subtotal: 698.99,
-                        shipping_cost: 20.00,
-                        total_tax: 57.67,
-                        total_cost: 626.66
-                    },
-                    adjustments: [{
-                        name: "New Customer Discount",
-                        amount: -50
-                    }, {
-                        name: "$100 Off Coupon",
-                        amount: -100
-                    }]
-                }
-            }
-        }
-    };
-
-    callSendAPI(messageData);
-}
-
-/*
  * Send a message with Quick Reply buttons.
  *
  */
@@ -969,7 +584,7 @@ function sendLocationRequest(recipientId) {
             id: recipientId
         },
         "message": {
-            "text": "Please share your location:",
+            "text": "Tap below to share your location.",
             "quick_replies": [{
                 "content_type": "location",
             }]
