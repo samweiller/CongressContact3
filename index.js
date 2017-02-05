@@ -135,7 +135,7 @@ request({
            "type":"postback",
            "title":"About Hana",
            "payload": {
-             payloadID: "ABOUT_THIS_BOT_PAYLOAD",
+             payloadID: "ABOUT_THIS_BOT_PAYLOAD26",
              name: "hello"
           }
          }
