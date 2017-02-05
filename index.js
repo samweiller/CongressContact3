@@ -8,7 +8,7 @@ const
     express = require('express'),
     https = require('https'),
     request = require('request');
-    
+
 var app = express();
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
@@ -106,7 +106,7 @@ request({
     method: 'POST',
     json: {
        setting_type: "domain_whitelisting",
-       "whitelisted_domains" : ["https://www.facebook.com", "https://petersfancybrownhats.com"],
+       "whitelisted_domains" : ["https://www.facebook.com", "https://petersfancybrownhats.com", "https://*.senate.gov"],
        "domain_action_type": "add"
    }
 }, function(error, response, body) {
@@ -406,7 +406,7 @@ function receivedMessage(event) {
                       subtitle: theFullSubtitle,
                       "default_action": {
                           "type": "web_url",
-                          "url": "https://www.facebook.com",
+                          "url": repData.website.replace('http', 'https'),
                           "messenger_extensions": true,
                           "webview_height_ratio": "tall",
                           "fallback_url": "https://www.facebook.com"
