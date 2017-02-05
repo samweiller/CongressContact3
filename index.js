@@ -572,7 +572,9 @@ function receivedPostback(event) {
     } else if (payload.indexOf('GENERATE_SCRIPT') > -1) {
         repIndex = payload[payload.length - 1];
 
-        console.log(scriptData[repIndex])
+        console.log('NO. LOOK HERE!')
+        console.log(scriptData)
+        console.log(masterRepData)
 
         scriptTemp = scriptData[repIndex]
 
