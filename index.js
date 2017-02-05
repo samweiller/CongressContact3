@@ -433,8 +433,7 @@ function receivedMessage(event) {
                       }, {
                           "type": "postback",
                           "title": "Get a Script",
-                          "payload": "GENERATE_SCRIPT",
-                          "otherData": "Hello!"
+                          "payload": "GENERATE_SCRIPT"
                       }, {
                           "type": "postback",
                           "title": "More Options",
