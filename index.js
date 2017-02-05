@@ -9,6 +9,10 @@ const
     https = require('https'),
     request = require('request');
 
+var googleMapsClient = require('@google/maps').createClient({
+    key: 'AIzaSyCEWnT2fRtUmWSMIpLXLTu5cLmMbFrfMKk'
+});
+
 var app = express();
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
@@ -86,11 +90,11 @@ request({
     },
     method: 'POST',
     json: {
-       setting_type: "greeting",
-       greeting: {
-           text: "This is an amazing greeting."
-       }
-   }
+        setting_type: "greeting",
+        greeting: {
+            text: "This is an amazing greeting."
+        }
+    }
 }, function(error, response, body) {
     if (error) {
         return console.error('upload failed:', error);
@@ -105,10 +109,10 @@ request({
     },
     method: 'POST',
     json: {
-       setting_type: "domain_whitelisting",
-       "whitelisted_domains" : ["https://www.facebook.com", "https://petersfancybrownhats.com", "https://senate.gov"],
-       "domain_action_type": "add"
-   }
+        setting_type: "domain_whitelisting",
+        "whitelisted_domains": ["https://www.facebook.com", "https://petersfancybrownhats.com", "https://senate.gov"],
+        "domain_action_type": "add"
+    }
 }, function(error, response, body) {
     if (error) {
         return console.error('upload failed:', error);
@@ -123,21 +127,18 @@ request({
     },
     method: 'POST',
     json: {
-       setting_type: "call_to_actions",
-       "thread_state" : "existing_thread",
-       "call_to_actions":[
-         {
-           "type":"postback",
-           "title":"Find More Representatives",
-           "payload": "RESTART_REP_SEARCH_PAYLOAD"
-         },
-         {
-           "type":"postback",
-           "title":"About Hana",
-           "payload": "ABOUT_THIS_BOT_PAYLOAD"
-         }
-       ]
-   }
+        setting_type: "call_to_actions",
+        "thread_state": "existing_thread",
+        "call_to_actions": [{
+            "type": "postback",
+            "title": "Find More Representatives",
+            "payload": "RESTART_REP_SEARCH_PAYLOAD"
+        }, {
+            "type": "postback",
+            "title": "About Hana",
+            "payload": "ABOUT_THIS_BOT_PAYLOAD"
+        }]
+    }
 }, function(error, response, body) {
     if (error) {
         return console.error('upload failed:', error);
@@ -365,9 +366,9 @@ function receivedMessage(event) {
         }
     } else if (messageAttachments) {
         messageAttachments = messageAttachments[0]
-      //   sendTextMessage(senderID, "Message with attachment received");
-        //   console.log('LOOK HERE')
-        //   console.log(messageAttachments)
+            //   sendTextMessage(senderID, "Message with attachment received");
+            //   console.log('LOOK HERE')
+            //   console.log(messageAttachments)
         if (messageAttachments.type === 'location') {
             sendTextMessage(senderID, "Excellent! Hang on while I find your representatives.")
                 //   var theMessageContent = "Your location is Lat: " + messageAttachments.payload.coordinates.lat + ", Long: " + messageAttachments.payload.coordinates.long + "."
@@ -388,63 +389,90 @@ function receivedMessage(event) {
                 console.log('Upload successful!  Server responded with:', body);
                 console.log('LOOK HERE')
                 var dataPack = JSON.parse(body);
-               //  console.log(fooBar.results[0].last_name)
-               //  sendTextMessage(senderID, "Got it!")
+                //  console.log(fooBar.results[0].last_name)
+                //  sendTextMessage(senderID, "Got it!")
 
                 // build congressperson data cards
                 dataElements = []
                 masterRepData = []
+                scriptData = []
+
                 for (cPeople = 0; cPeople < dataPack.results.length; cPeople++) {
-                   repData = dataPack.results[cPeople];
-                   masterRepData.push(repData)
+                    repData = dataPack.results[cPeople];
+                    masterRepData.push(repData)
 
-                   theName = toTitleCase(repData.first_name) + " " + toTitleCase(repData.last_name)
+                    theName = toTitleCase(repData.first_name) + " " + toTitleCase(repData.last_name)
 
-                   if (repData.party == 'R') {
-                      theParty = 'Republican'
-                   } else if (repData.party == 'D') {
-                      theParty = 'Democrat'
-                   } else if (repData.party == 'I') {
-                      theParty = 'Independent'
-                   } else {
-                      theParty = 'Party Error'
-                   }
+                    if (repData.party == 'R') {
+                        theParty = 'Republican'
+                    } else if (repData.party == 'D') {
+                        theParty = 'Democrat'
+                    } else if (repData.party == 'I') {
+                        theParty = 'Independent'
+                    } else {
+                        theParty = 'Party Error'
+                    }
 
-                   theFullSubtitle = toTitleCase(repData.chamber) + " - " + theParty
+                    theFullSubtitle = toTitleCase(repData.chamber) + " - " + theParty
 
-                   theURL = repData.website
-                   if (theURL[4] == ':') {
-                      theURL = theURL.replace('http', 'https')
-                   }
-                  //  theURL = repData.website.replace('http', 'https')
-                  //  console.log(theURL)
+                    theURL = repData.website
+                    if (theURL[4] == ':') {
+                        theURL = theURL.replace('http', 'https')
+                    }
+                    //  theURL = repData.website.replace('http', 'https')
+                    //  console.log(theURL)
 
-                  imageURL = "https://theunitedstates.io/images/congress/225x275/" + repData.bioguide_id + ".jpg"
+                    imageURL = "https://theunitedstates.io/images/congress/225x275/" + repData.bioguide_id + ".jpg"
 
-                   repToPush = {
-                      title: theName,
-                      image_url: imageURL,
-                      subtitle: theFullSubtitle,
-                      "default_action": {
-                          "type": "web_url",
-                          "url": theURL
-                      },
-                      "buttons": [{
-                          "type": "phone_number",
-                          "title": "Call DC Office",
-                          "payload": "+1" + repData.phone
-                      }, {
-                          "type": "postback",
-                          "title": "Get a Script",
-                          "payload": "GENERATE_SCRIPT_" + cPeople
-                      }, {
-                          "type": "postback",
-                          "title": "More Options",
-                          "payload": "GENERATE_MORE_OPTIONS"
-                      }]
-                   }
+                    repToPush = {
+                        title: theName,
+                        image_url: imageURL,
+                        subtitle: theFullSubtitle,
+                        "default_action": {
+                            "type": "web_url",
+                            "url": theURL
+                        },
+                        "buttons": [{
+                            "type": "phone_number",
+                            "title": "Call DC Office",
+                            "payload": "+1" + repData.phone
+                        }, {
+                            "type": "postback",
+                            "title": "Get a Script",
+                            "payload": "GENERATE_SCRIPT_" + cPeople
+                        }, {
+                            "type": "postback",
+                            "title": "More Options",
+                            "payload": "GENERATE_MORE_OPTIONS_" + cPeople
+                        }]
+                    }
 
-                   dataElements.push(repToPush) // Push rep into data array
+                    dataElements.push(repToPush) // Push rep into data array
+
+                    googleMapsClient.geocode({
+                        latlng: messageAttachments.payload.coordinates.lat + ',' + messageAttachments.payload.coordinates.long
+                    }, function(err, response) {
+                        if (!err) {
+                            theLocationData = response.json.results;
+
+                            if (repData.chamber.toLowerCase() == 'senate') {
+                                chamberTitle = 'Senator'
+                            } else if (repData.chamber.toLowerCase() == 'house') {
+                                chamberTitle = 'Representative'
+                            }
+
+                            scriptDataPoint = {
+                                constituent: ,
+                                city: theLocationData.results[3].address_components[0].long_name,
+                                zip: theLocationData.results[5].address_components[0].long_name,
+                                chamber_title: chamberTitle,
+                                last_name: toTitleCase(repData.last_name),
+                                phone_number: repData.phone
+                            }
+
+                            scriptData.push(scriptDataPoint)
+                        }
+                    });
                 }
 
                 // CALL SEND API
@@ -517,8 +545,8 @@ function receivedPostback(event) {
     console.log("Received postback for user %d and page %d with payload '%s' " +
         "at %d", senderID, recipientID, payload, timeOfPostback);
 
-        console.log('LOOK HERE')
-        console.log(event.postback)
+    console.log('LOOK HERE')
+    console.log(event.postback)
 
     // When a postback is called, we'll send a message back to the sender to
     // let them know it was successful
@@ -527,19 +555,54 @@ function receivedPostback(event) {
     if (payload.indexOf('WELCOME_PAYLOAD') > -1) {
         sendTextMessage(senderID, "Hello! I'm Franklin. I can help you get in contact with your congresspeople.");
         setTimeout(function() {
-                sendLocationRequest(senderID)
+            sendLocationRequest(senderID)
         }, 2000)
     } else if (payload.indexOf('RESTART_REP_SEARCH_PAYLOAD') > -1) {
-      setTimeout(function() {
-         sendTextMessage(senderID, "Let's look up some more representatives.")
-         setTimeout(function() {
-                 sendLocationRequest(senderID)
-         }, 2000)
-      }, 1000)
-   } else if (payload.indexOf('GENERATE_SCRIPT') > -1) {
-      repIndex = payload[payload.length - 1];
-      console.log(masterRepData[repIndex])
-   }
+        setTimeout(function() {
+            sendTextMessage(senderID, "Let's look up some more representatives.")
+            setTimeout(function() {
+                sendLocationRequest(senderID)
+            }, 2000)
+        }, 1000)
+    } else if (payload.indexOf('GENERATE_SCRIPT') > -1) {
+        repIndex = payload[payload.length - 1];
+
+        console.log(scriptData[repIndex])
+
+        scriptTemp = scriptData[repIndex]
+
+        talkingScript = "Hello. My name is BLANK. I am a constituent from " + scriptTemp.city + ", zip code " + scriptTemp.zip + ". I do not need a response.  I am in favor of ____/opposed to ____, and I encourage " + scriptTemp.chamber_title + " " + last_name + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
+
+        // Send script with a call button.
+
+
+        var messageData = {
+            recipient: {
+                id: recipientId
+            },
+            message: {
+                attachment: {
+                    type: "template",
+                    payload: {
+                        template_type: "button",
+                        text: talkingScript,
+                        buttons: [{
+                            type: "phone_number",
+                            title: "Call the Office",
+                            payload: "+1" + scriptTemp.phone_number
+                        }]
+                    }
+                }
+            }
+        };
+
+        setTimeout(funciton() {
+           sendTextMessage(senderID, "You can use this script when you call.")
+           setTimeout(funciton() {
+              callSendAPI(messageData);
+           }, 1000)
+        }, 1000)
+    }
 }
 
 /*
@@ -634,56 +697,6 @@ function sendButtonMessage(recipientId) {
     callSendAPI(messageData);
 }
 
-/*
- * Send a Structured Message (Generic Message type) using the Send API.
- *
- */
-function sendGenericMessage(recipientId) {
-    var messageData = {
-        recipient: {
-            id: recipientId
-        },
-        message: {
-            attachment: {
-                type: "template",
-                payload: {
-                    template_type: "generic",
-                    elements: [{
-                        title: "rift",
-                        subtitle: "Next-generation virtual reality",
-                        item_url: "https://www.oculus.com/en-us/rift/",
-                        image_url: SERVER_URL + "/assets/rift.png",
-                        buttons: [{
-                            type: "web_url",
-                            url: "https://www.oculus.com/en-us/rift/",
-                            title: "Open Web URL"
-                        }, {
-                            type: "postback",
-                            title: "Call Postback",
-                            payload: "Payload for first bubble",
-                        }],
-                    }, {
-                        title: "touch",
-                        subtitle: "Your Hands, Now in VR",
-                        item_url: "https://www.oculus.com/en-us/touch/",
-                        image_url: SERVER_URL + "/assets/touch.png",
-                        buttons: [{
-                            type: "web_url",
-                            url: "https://www.oculus.com/en-us/touch/",
-                            title: "Open Web URL"
-                        }, {
-                            type: "postback",
-                            title: "Call Postback",
-                            payload: "Payload for second bubble",
-                        }]
-                    }]
-                }
-            }
-        }
-    };
-
-    callSendAPI(messageData);
-}
 
 /*
  * Send a message with Quick Reply buttons.
@@ -840,9 +853,10 @@ function callSendAPI(messageData) {
     });
 }
 
-function toTitleCase(str)
-{
-    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
 }
 
 
