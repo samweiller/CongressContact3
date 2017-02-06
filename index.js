@@ -602,6 +602,9 @@ function receivedPostback(event) {
 
                 console.log(theLocationData.address_components.length);
                //  if (theLocationData) {
+               theZip = '';
+               theState = '';
+               theCity = '';
                     for (j = 0; j < theLocationData.address_components.length; j++) {
                        console.log(theLocationData.address_components[j].types[0]);
                         if (theLocationData.address_components[j].types[0] == 'postal_code') {
