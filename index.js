@@ -581,37 +581,56 @@ function receivedPostback(event) {
 
         constituent = "George Milton"
 
-        talkingScript = "Hello. My name is " + constituent + ". I am a constituent from " + scriptTemp.city + ", zip code " + scriptTemp.zip + ". I do not need a response.  I am in favor of ____/opposed to ____, and I encourage " + scriptTemp.chamber_title + " " + last_name + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
+        googleMapsClient.reverseGeocode({
+            latlng: messageAttachments.payload.coordinates.lat + ',' + messageAttachments.payload.coordinates.long
+       }, function(err, response) {
+            if (!err) {
+               theLocationData = response.json.results;
 
-        // Send script with a call button.
+               if (scriptTemp.chamber.toLowerCase() == 'senate') {
+                    chamberTitle = 'Senator'
+               } else if (scriptTemp.chamber.toLowerCase() == 'house') {
+                    chamberTitle = 'Representative'
+               }
+
+               theCity = theLocationData.results[3].address_components[0].long_name;
+               theZip = theLocationData.results[5].address_components[0].long_name;
+               theLastName = toTitleCase(scriptTemp.last_name)
+               phoneNumber = scriptTemp.phone
+
+               talkingScript = "Hello. My name is " + constituent + ". I am a constituent from " + theCity + ", zip code " + theZip + ". I do not need a response.  I am in favor of ____/opposed to ____, and I encourage " + chamberTitle + " " + theLastName + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
+
+               // Send script with a call button.
 
 
-        var messageData = {
-            recipient: {
-                id: recipientId
-            },
-            message: {
-                attachment: {
-                    type: "template",
-                    payload: {
-                        template_type: "button",
-                        text: talkingScript,
-                        buttons: [{
-                            type: "phone_number",
-                            title: "Call the Office",
-                            payload: "+1" + scriptTemp.phone_number
-                        }]
-                    }
-                }
+               var messageData = {
+                   recipient: {
+                       id: recipientId
+                   },
+                   message: {
+                       attachment: {
+                           type: "template",
+                           payload: {
+                               template_type: "button",
+                               text: talkingScript,
+                               buttons: [{
+                                   type: "phone_number",
+                                   title: "Call the Office",
+                                   payload: "+1" + phoneNumber
+                               }]
+                           }
+                       }
+                   }
+               };
+
+               setTimeout(function() {
+                   sendTextMessage(senderID, "You can use this script when you call.")
+                   setTimeout(function() {
+                       callSendAPI(messageData);
+                   }, 1000)
+               }, 1000)
             }
-        };
-
-        setTimeout(function() {
-            sendTextMessage(senderID, "You can use this script when you call.")
-            setTimeout(function() {
-                callSendAPI(messageData);
-            }, 1000)
-        }, 1000)
+       });
     }
 }
 
