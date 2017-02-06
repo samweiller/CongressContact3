@@ -607,12 +607,15 @@ function receivedPostback(event) {
                         if (theLocationData.address_components[j].types[0] == 'postal_code') {
                            console.log('log zip');
                            theZip = theLocationData.address_components[j].types[0]
+                           console.log(theZip);
                         } else if (theLocationData.address_components[j].types[0] == 'administrative_area_level_1') {
                            console.log('log state');
                            theState = theLocationData.address_components[j].types[0]
+                           console.log(theState);
                         } else if (theLocationData.address_components[j].types[2] == 'sublocality_level_1') {
                            console.log('log city');
                            theCity = theLocationData.address_components[j].types[0]
+                           console.log(theCity);
                         }
                     }
                //  }
