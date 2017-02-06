@@ -602,9 +602,9 @@ function receivedPostback(event) {
 
                 console.log(chamberTitle)
 
-                theCity = theLocationData[3].address_components[0].long_name;
+                theCity = theLocationData[0].address_components[3].long_name;
                 console.log(theCity)
-                theZip = theLocationData[5].address_components[0].long_name;
+                theZip = theLocationData[0].address_components[7].long_name;
                 console.log(theZip)
                 theLastName = toTitleCase(scriptTemp.last_name)
                 console.log(theLastName);
@@ -638,6 +638,8 @@ function receivedPostback(event) {
                         }
                     }
                 };
+
+                console.log('message ready to send');
 
                 setTimeout(function() {
                     console.log('sending message')
