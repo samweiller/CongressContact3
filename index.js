@@ -160,7 +160,7 @@ request({
         var messageId = body.message_id;
 
         console.log('RIGHT HERE');
-        console.log(recipientId);
+        console.log(body);
 
         request({
             uri: 'https://graph.facebook.com/v2.6/' + recipientId,
@@ -515,30 +515,30 @@ function receivedMessage(event) {
 
                         myCoordinates = [messageAttachments.payload.coordinates.lat, messageAttachments.payload.coordinates.long]
 
-                        googleMapsClient.reverseGeocode({
-                            latlng: myCoordinates[0] + ',' + myCoordinates[1]
-                        }, function(err, response) {
-                            if (!err) {
-                                theLocationData = response.json.results;
-
-                                if (repData.chamber.toLowerCase() == 'senate') {
-                                    chamberTitle = 'Senator'
-                                } else if (repData.chamber.toLowerCase() == 'house') {
-                                    chamberTitle = 'Representative'
-                                }
-
-                                scriptDataPoint = {
-                                    constituent: 'James Fillmore',
-                                    city: theLocationData.results[3].address_components[0].long_name,
-                                    zip: theLocationData.results[5].address_components[0].long_name,
-                                    chamber_title: chamberTitle,
-                                    last_name: toTitleCase(repData.last_name),
-                                    phone_number: repData.phone
-                                }
-
-                                scriptData.push(scriptDataPoint)
-                            }
-                        });
+                        // googleMapsClient.reverseGeocode({
+                        //     latlng: myCoordinates[0] + ',' + myCoordinates[1]
+                        // }, function(err, response) {
+                        //     if (!err) {
+                        //         theLocationData = response.json.results;
+                        //
+                        //         if (repData.chamber.toLowerCase() == 'senate') {
+                        //             chamberTitle = 'Senator'
+                        //         } else if (repData.chamber.toLowerCase() == 'house') {
+                        //             chamberTitle = 'Representative'
+                        //         }
+                        //
+                        //         scriptDataPoint = {
+                        //             constituent: 'James Fillmore',
+                        //             city: theLocationData.results[3].address_components[0].long_name,
+                        //             zip: theLocationData.results[5].address_components[0].long_name,
+                        //             chamber_title: chamberTitle,
+                        //             last_name: toTitleCase(repData.last_name),
+                        //             phone_number: repData.phone
+                        //         }
+                        //
+                        //         scriptData.push(scriptDataPoint)
+                        //     }
+                        // });
                     }
 
                     // CALL SEND API
@@ -707,6 +707,34 @@ function receivedPostback(event) {
                 console.log(theLastName);
                 phoneNumber = scriptTemp.phone
                 console.log(phoneNumber);
+
+
+                request({
+                    uri: 'https://graph.facebook.com/v2.6/' + recipientID,
+                    qs: {
+                       access_token: PAGE_ACCESS_TOKEN
+                    },
+                    method: 'GET'
+
+                }, function(error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                        var recipientId = body.recipient_id;
+                        var messageId = body.message_id;
+
+                        console.log('RIGHT HERE, ACTUALLY');
+                        console.log(body);
+
+                        if (messageId) {
+                            console.log("Successfully sent message with id %s to recipient %s", messageId, recipientId);
+                                console.log(body);
+                        } else {
+                            console.log("Successfully called Send API for recipient %s",
+                                recipientId);
+                        }
+                    } else {
+                        console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
+                    }
+                });
 
 
                 talkingScript = "Hello. My name is " + constituent + ". I am a constituent from " + theCity + ", " + theState + ", zip code " + theZip + ". I do not need a response. I am in favor of/opposed to ____, and I encourage " + chamberTitle + " " + theLastName + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
