@@ -589,8 +589,8 @@ function receivedPostback(event) {
         }, function(err, response) {
             if (!err) {
                 console.log('GOT LOCATION')
-                theLocationData = response.json.results;
-                console.log(theLocationData[0])
+                theLocationData = response.json.results[0];
+                console.log(theLocationData)
 
                 if (scriptTemp.chamber.toLowerCase() == 'senate') {
                     chamberTitle = 'Senator'
@@ -600,13 +600,25 @@ function receivedPostback(event) {
                     chamberTitle = 'Congressperson'
                 }
 
+                if (theLocationData) {
+                    for (j = 0; j < theLocationData.address_components.length; j++) {
+                        if (theLocationData.address_components[j].types[0] == 'postal_code') {
+                           theZip = theLocationData.address_components[j].types[0]
+                        } else if (theLocationData.address_components[j].types[0] == 'administrative_area_level_1') {
+                           theState = theLocationData.address_components[j].types[0]
+                        } else if (theLocationData.address_components[j].types[2] == 'sublocality_level_1') {
+                           theCity = theLocationData.address_components[j].types[0]
+                        }
+                    }
+                }
+
                 console.log(chamberTitle)
 
-                theCity = theLocationData[0].address_components[3].long_name;
+               //  theCity = theLocationData[0].address_components[3].long_name;
                 console.log(theCity)
-                theState = theLocationData[0].address_components[5].long_name;
+               //  theState = theLocationData[0].address_components[5].long_name;
                 console.log(theState)
-                theZip = theLocationData[0].address_components[7].long_name;
+               //  theZip = theLocationData[0].address_components[7].long_name;
                 console.log(theZip)
                 theLastName = toTitleCase(scriptTemp.last_name)
                 console.log(theLastName);
@@ -641,15 +653,15 @@ function receivedPostback(event) {
                     }
                 }
 
-               // messageData = {
-               //     recipient: {
-               //         id: recipientID
-               //     },
-               //     message: {
-               //         text: messageText,
-               //         metadata: "DEVELOPER_DEFINED_METADATA"
-               //     }
-               // };
+                // messageData = {
+                //     recipient: {
+                //         id: recipientID
+                //     },
+                //     message: {
+                //         text: messageText,
+                //         metadata: "DEVELOPER_DEFINED_METADATA"
+                //     }
+                // };
 
 
                 console.log('message ready to send');
@@ -657,13 +669,13 @@ function receivedPostback(event) {
                 sendTextMessage(senderID, "You can use this script when you call.");
                 callSendAPI(messageData);
 
-               //  setTimeout(function() {
-               //      console.log('sending message')
-               //
-               //      setTimeout(function() {
-               //
-               //      }, 1000)
-               //  }, 1000)
+                //  setTimeout(function() {
+                //      console.log('sending message')
+                //
+                //      setTimeout(function() {
+                //
+                //      }, 1000)
+                //  }, 1000)
             } else {
                 console.log('LOCATION ERROR')
             }
