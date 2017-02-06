@@ -602,11 +602,14 @@ function receivedPostback(event) {
                 console.log(chamberTitle)
 
                 theCity = theLocationData.results[3].address_components[0].long_name;
-                theZip = theLocationData.results[5].address_components[0].long_name;
-                theLastName = toTitleCase(scriptTemp.last_name)
-                phoneNumber = scriptTemp.phone
-
                 console.log(theCity)
+                theZip = theLocationData.results[5].address_components[0].long_name;
+                console.log(theZip)
+                theLastName = toTitleCase(scriptTemp.last_name)
+                console.log(theLastName);
+                phoneNumber = scriptTemp.phone
+                console.log(phoneNumber);
+
 
                 talkingScript = "Hello. My name is " + constituent + ". I am a constituent from " + theCity + ", zip code " + theZip + ". I do not need a response.  I am in favor of ____/opposed to ____, and I encourage " + chamberTitle + " " + theLastName + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
 
