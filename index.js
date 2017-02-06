@@ -628,14 +628,10 @@ function receivedPostback(event) {
                             type: "template",
                             payload: {
                                 template_type: "button",
-                                text: "something else",
+                                text: talkingScript,
                                 buttons: [{
                                     type: "phone_number",
                                     title: "Call the Office",
-                                    payload: "+1" + phoneNumber
-                                }, {
-                                    type: "phone_number",
-                                    title: "Call the Office 2",
                                     payload: "+1" + phoneNumber
                                 }]
                             }
