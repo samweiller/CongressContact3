@@ -623,6 +623,18 @@ function receivedPostback(event) {
                     }
                //  }
 
+               if (theCity == '') {
+                  for (j = 0; j < theLocationData.address_components.length; j++) {
+                     if (theLocationData.address_components[j].types[0] == 'political') {
+                        if (theLocationData.address_components[j].types[1] == 'sublocality') {
+                           theCity = theLocationData.address_components[j].long_name
+                           console.log('MISSING CITY FOUND')
+                           console.log(theCity);
+                        }
+                     }
+                  }
+               }
+
                console.log('hello I am here');
 
                 console.log(chamberTitle)
