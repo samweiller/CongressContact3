@@ -439,9 +439,9 @@ function receivedMessage(event) {
                                 "url": theURL
                             },
                             "buttons": [{
-                                "type": "phone_number",
-                                "title": "Call DC Office",
-                                "payload": "+1" + repData.phone
+                                "type": "postback",
+                                "title": "Call " + toTitleCase(repData.last_name) + "'s DC Office",
+                                "payload": "GENERATE_SCRIPT_" + cPeople
                             }, {
                                 "type": "postback",
                                 "title": "Get a Script",
@@ -623,7 +623,7 @@ function receivedPostback(event) {
                     }
                //  }
 
-               if (theCity == '') {
+               if (theCity == '') { // If a location has no locality (ie Brooklyn), search back through for a sublocality
                   for (j = 0; j < theLocationData.address_components.length; j++) {
                      if (theLocationData.address_components[j].types[0] == 'political') {
                         if (theLocationData.address_components[j].types[1] == 'sublocality') {
@@ -651,7 +651,7 @@ function receivedPostback(event) {
                 console.log(phoneNumber);
 
 
-                talkingScript = "Hello. My name is " + constituent + ". I am a constituent from " + theCity + ", " + theState + ", zip code " + theZip + ". I do not need a response. I am in favor of ____/opposed to ____, and I encourage " + chamberTitle + " " + theLastName + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
+                talkingScript = "Hello. My name is " + constituent + ". I am a constituent from " + theCity + ", " + theState + ", zip code " + theZip + ". I do not need a response. I am in favor of/opposed to ____, and I encourage " + chamberTitle + " " + theLastName + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
 
                 // Send script with a call button.
 
