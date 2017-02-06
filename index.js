@@ -643,7 +643,7 @@ function receivedPostback(event) {
                //      }
                //  }
 
-               var messageData = {
+               messageData = {
                    recipient: {
                        id: recipientId
                    },
