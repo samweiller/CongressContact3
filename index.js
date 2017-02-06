@@ -165,6 +165,7 @@ request({
         request({
             uri: 'https://graph.facebook.com/v2.6/' + recipientId,
             qs: {
+               fields: 'first_name,last_name'
                 access_token: PAGE_ACCESS_TOKEN
             },
             method: 'GET'
