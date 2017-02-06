@@ -600,7 +600,7 @@ function receivedPostback(event) {
                     chamberTitle = 'Congressperson'
                 }
 
-                if (theLocationData) {
+               //  if (theLocationData) {
                     for (j = 0; j < theLocationData.address_components.length; j++) {
                         if (theLocationData.address_components[j].types[0] == 'postal_code') {
                            theZip = theLocationData.address_components[j].types[0]
@@ -610,7 +610,7 @@ function receivedPostback(event) {
                            theCity = theLocationData.address_components[j].types[0]
                         }
                     }
-                }
+               //  }
 
                 console.log(chamberTitle)
 
