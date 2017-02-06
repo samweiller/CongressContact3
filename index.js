@@ -590,7 +590,7 @@ function receivedPostback(event) {
             if (!err) {
                 console.log('GOT LOCATION')
                 theLocationData = response.json.results[0];
-                console.log(theLocationData)
+               //  console.log(theLocationData)
 
                 if (scriptTemp.chamber.toLowerCase() == 'senate') {
                     chamberTitle = 'Senator'
@@ -600,6 +600,7 @@ function receivedPostback(event) {
                     chamberTitle = 'Congressperson'
                 }
 
+                console.log(theLocationData.address_components.length);
                //  if (theLocationData) {
                     for (j = 0; j < theLocationData.address_components.length; j++) {
                         if (theLocationData.address_components[j].types[0] == 'postal_code') {
