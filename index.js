@@ -621,7 +621,7 @@ function receivedPostback(event) {
 
                 var messageData = {
                     recipient: {
-                        id: recipientID
+                        id: senderID
                     },
                     message: {
                         attachment: {
