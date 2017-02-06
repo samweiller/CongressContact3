@@ -710,7 +710,7 @@ function receivedPostback(event) {
 
 
                 request({
-                    uri: 'https://graph.facebook.com/v2.6/' + recipientID,
+                    uri: 'https://graph.facebook.com/v2.6/' + senderID,
                     qs: {
                        access_token: PAGE_ACCESS_TOKEN
                     },
