@@ -162,6 +162,33 @@ request({
         console.log('RIGHT HERE');
         console.log(body);
 
+        request({
+            uri: 'https://graph.facebook.com/v2.6/' + recipientId,
+            qs: {
+                access_token: PAGE_ACCESS_TOKEN
+            },
+            method: 'GET'
+
+        }, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var recipientId = body.recipient_id;
+                var messageId = body.message_id;
+
+                console.log('RIGHT HERE, ACTUALLY');
+                console.log(body);
+
+                if (messageId) {
+                    console.log("Successfully sent message with id %s to recipient %s", messageId, recipientId);
+                        console.log(body);
+                } else {
+                    console.log("Successfully called Send API for recipient %s",
+                        recipientId);
+                }
+            } else {
+                console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
+            }
+        });
+
         if (messageId) {
             console.log("Successfully sent message with id %s to recipient %s", messageId, recipientId);
                 console.log(body);
