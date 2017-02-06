@@ -573,12 +573,15 @@ function receivedPostback(event) {
         repIndex = payload[payload.length - 1];
 
         console.log('NO. LOOK HERE!')
-        console.log(scriptData)
-        console.log(masterRepData)
+      //   console.log(scriptData)
+      //   console.log(masterRepData)
 
-        scriptTemp = scriptData[repIndex]
+        scriptTemp = masterRepData[repIndex]
+        console.log(scriptTemp)
 
-        talkingScript = "Hello. My name is " + scriptTemp.constituent + ". I am a constituent from " + scriptTemp.city + ", zip code " + scriptTemp.zip + ". I do not need a response.  I am in favor of ____/opposed to ____, and I encourage " + scriptTemp.chamber_title + " " + last_name + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
+        constituent = "George Milton"
+
+        talkingScript = "Hello. My name is " + constituent + ". I am a constituent from " + scriptTemp.city + ", zip code " + scriptTemp.zip + ". I do not need a response.  I am in favor of ____/opposed to ____, and I encourage " + scriptTemp.chamber_title + " " + last_name + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
 
         // Send script with a call button.
 
