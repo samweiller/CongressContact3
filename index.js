@@ -580,7 +580,7 @@ function receivedPostback(event) {
       //   console.log(masterRepData)
 
         scriptTemp = masterRepData[repIndex]
-        console.log(scriptTemp)
+      //   console.log(scriptTemp)
 
         constituent = "George Milton"
 
@@ -606,6 +606,8 @@ function receivedPostback(event) {
 
                // Send script with a call button.
 
+               console.log(talkingScript)
+
 
                var messageData = {
                    recipient: {
@@ -628,6 +630,7 @@ function receivedPostback(event) {
                };
 
                setTimeout(function() {
+                  console.log('sending message')
                    sendTextMessage(senderID, "You can use this script when you call.")
                    setTimeout(function() {
                        callSendAPI(messageData);
