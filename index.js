@@ -612,7 +612,7 @@ function receivedPostback(event) {
                            console.log('log state');
                            theState = theLocationData.address_components[j].long_name
                            console.log(theState);
-                        } else if (theLocationData.address_components[j].types[2] == 'sublocality_level_1') {
+                        } else if (theLocationData.address_components[j].types[0] == 'locality') {
                            console.log('log city');
                            theCity = theLocationData.address_components[j].long_name
                            console.log(theCity);
