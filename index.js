@@ -722,9 +722,13 @@ function receivedPostback(event) {
                         var messageId = body.message_id;
 
                         console.log('RIGHT HERE, ACTUALLY');
-                        console.log(body.first_name);
+                        // console.log(body.first_name);
 
-                        userName = body.first_name + " " + body.last_name
+                        userData = JSON.parse(body);
+
+                        console.log(userData)
+
+                        userName = userData.first_name + " " + userData.last_name
 
                         talkingScript = "Hello. My name is " + userName + ". I am a constituent from " + theCity + ", " + theState + ", zip code " + theZip + ". I do not need a response. I am in favor of/opposed to ____, and I encourage " + chamberTitle + " " + theLastName + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
 
