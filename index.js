@@ -163,7 +163,7 @@ request({
         console.log(body);
 
         request({
-            uri: 'https://graph.facebook.com/v2.6/' + recipientId,
+            uri: 'https://graph.facebook.com/v2.6/' + recipientId + '/',
             qs: {
                access_token: PAGE_ACCESS_TOKEN
             },
