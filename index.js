@@ -615,7 +615,7 @@ function receivedPostback(event) {
                         } else if (theLocationData.address_components[j].types[2] == 'sublocality_level_1') {
                            console.log('log city');
                            theCity = theLocationData.address_components[j].types[0]
-                           console.log(theCity)
+                           console.log(theCity);
                         }
                     }
                //  }
