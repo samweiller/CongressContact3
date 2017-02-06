@@ -617,6 +617,8 @@ function receivedPostback(event) {
                     }
                //  }
 
+               console.log('hello I am here');
+
                 console.log(chamberTitle)
 
                //  theCity = theLocationData[0].address_components[3].long_name;
