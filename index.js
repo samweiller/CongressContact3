@@ -612,7 +612,7 @@ function receivedPostback(event) {
                 console.log(phoneNumber);
 
 
-                talkingScript = "Hello. My name is " + constituent + ". I am a constituent from " + theCity + ", zip code " + theZip + ". I do not need a response.  I am in favor of ____/opposed to ____, and I encourage " + chamberTitle + " " + theLastName + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
+                talkingScript = "Hello. My name is " + constituent + ". I am a constituent from " + theCity + ", zip code " + theZip + ". I do not need a response. I am in favor of ____/opposed to ____, and I encourage " + chamberTitle + " " + theLastName + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
 
                 // Send script with a call button.
 
@@ -628,7 +628,7 @@ function receivedPostback(event) {
                             type: "template",
                             payload: {
                                 template_type: "button",
-                                text: talkingScript,
+                                text: "something else",
                                 buttons: [{
                                     type: "phone_number",
                                     title: "Call the Office",
