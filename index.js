@@ -619,39 +619,39 @@ function receivedPostback(event) {
                 console.log(talkingScript)
 
 
-               //  var messageData = {
-               //      recipient: {
-               //          id: recipientId
-               //      },
-               //      message: {
-               //          attachment: {
-               //              type: "template",
-               //              payload: {
-               //                  template_type: "button",
-               //                  text: "something else",
-               //                  buttons: [{
-               //                      type: "phone_number",
-               //                      title: "Call the Office",
-               //                      payload: "+1" + phoneNumber
-               //                  }, {
-               //                      type: "phone_number",
-               //                      title: "Call the Office 2",
-               //                      payload: "+1" + phoneNumber
-               //                  }]
-               //              }
-               //          }
-               //      }
-               //  }
+                var messageData = {
+                    recipient: {
+                        id: recipientID
+                    },
+                    message: {
+                        attachment: {
+                            type: "template",
+                            payload: {
+                                template_type: "button",
+                                text: "something else",
+                                buttons: [{
+                                    type: "phone_number",
+                                    title: "Call the Office",
+                                    payload: "+1" + phoneNumber
+                                }, {
+                                    type: "phone_number",
+                                    title: "Call the Office 2",
+                                    payload: "+1" + phoneNumber
+                                }]
+                            }
+                        }
+                    }
+                }
 
-               messageData = {
-                   recipient: {
-                       id: recipientId
-                   },
-                   message: {
-                       text: messageText,
-                       metadata: "DEVELOPER_DEFINED_METADATA"
-                   }
-               };
+               // messageData = {
+               //     recipient: {
+               //         id: recipientID
+               //     },
+               //     message: {
+               //         text: messageText,
+               //         metadata: "DEVELOPER_DEFINED_METADATA"
+               //     }
+               // };
 
 
                 console.log('message ready to send');
