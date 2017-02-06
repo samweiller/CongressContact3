@@ -724,69 +724,44 @@ function receivedPostback(event) {
                         console.log('RIGHT HERE, ACTUALLY');
                         console.log(body);
 
-                        if (messageId) {
-                            console.log("Successfully sent message with id %s to recipient %s", messageId, recipientId);
-                                console.log(body);
-                        } else {
-                            console.log("Successfully called Send API for recipient %s",
-                                recipientId);
+                        userName = body.first_name + " " + body.last_name
+
+                        talkingScript = "Hello. My name is " + userName + ". I am a constituent from " + theCity + ", " + theState + ", zip code " + theZip + ". I do not need a response. I am in favor of/opposed to ____, and I encourage " + chamberTitle + " " + theLastName + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
+
+                        // Send script with a call button.
+
+                        console.log(talkingScript)
+
+
+                        var messageData = {
+                            recipient: {
+                                id: senderID
+                            },
+                            message: {
+                                attachment: {
+                                    type: "template",
+                                    payload: {
+                                        template_type: "button",
+                                        text: talkingScript,
+                                        buttons: [{
+                                            type: "phone_number",
+                                            title: "Call the Office",
+                                            payload: "+1" + phoneNumber
+                                        }]
+                                    }
+                                }
+                            }
                         }
+
+                        console.log('message ready to send');
+
+                        sendTextMessage(senderID, "You can use this script when you call.");
+                        callSendAPI(messageData);
+
                     } else {
                         console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
                     }
                 });
-
-
-                talkingScript = "Hello. My name is " + constituent + ". I am a constituent from " + theCity + ", " + theState + ", zip code " + theZip + ". I do not need a response. I am in favor of/opposed to ____, and I encourage " + chamberTitle + " " + theLastName + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
-
-                // Send script with a call button.
-
-                console.log(talkingScript)
-
-
-                var messageData = {
-                    recipient: {
-                        id: senderID
-                    },
-                    message: {
-                        attachment: {
-                            type: "template",
-                            payload: {
-                                template_type: "button",
-                                text: talkingScript,
-                                buttons: [{
-                                    type: "phone_number",
-                                    title: "Call the Office",
-                                    payload: "+1" + phoneNumber
-                                }]
-                            }
-                        }
-                    }
-                }
-
-                // messageData = {
-                //     recipient: {
-                //         id: recipientID
-                //     },
-                //     message: {
-                //         text: messageText,
-                //         metadata: "DEVELOPER_DEFINED_METADATA"
-                //     }
-                // };
-
-
-                console.log('message ready to send');
-
-                sendTextMessage(senderID, "You can use this script when you call.");
-                callSendAPI(messageData);
-
-                //  setTimeout(function() {
-                //      console.log('sending message')
-                //
-                //      setTimeout(function() {
-                //
-                //      }, 1000)
-                //  }, 1000)
             } else {
                 console.log('LOCATION ERROR')
             }
