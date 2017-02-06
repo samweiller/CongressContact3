@@ -421,6 +421,14 @@ function receivedMessage(event) {
 
                         theFullSubtitle = toTitleCase(repData.chamber) + " - " + theParty
 
+                        if (repData.gender == 'M') {
+                           repArticle = 'his';
+                        } else if (repData.gender == 'F') {
+                           repArticle = 'her'
+                        } else {
+                           repArticle = 'their'
+                        }
+
                         theURL = repData.website
                         if (theURL[4] == ':') {
                             theURL = theURL.replace('http', 'https')
@@ -440,11 +448,7 @@ function receivedMessage(event) {
                             },
                             "buttons": [{
                                 "type": "postback",
-                                "title": "Call " + toTitleCase(repData.last_name) + "'s DC Office",
-                                "payload": "GENERATE_SCRIPT_" + cPeople
-                            }, {
-                                "type": "postback",
-                                "title": "Get a Script",
+                                "title": "Call " + repArticle + " DC Office",
                                 "payload": "GENERATE_SCRIPT_" + cPeople
                             }, {
                                 "type": "postback",
