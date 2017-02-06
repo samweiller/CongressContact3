@@ -156,7 +156,7 @@ request({
 
 }, function(error, response, body) {
     if (!error && response.statusCode == 200) {
-        var recipientId = body.recipient_id;
+        var recipientId = body.id;
         var messageId = body.message_id;
 
         console.log('RIGHT HERE');
