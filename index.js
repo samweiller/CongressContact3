@@ -20,6 +20,7 @@ app.use(bodyParser.json({
     verify: verifyRequestSignature
 }));
 app.use(express.static('public'));
+var myCoordinates = []
 
 /*
  * Be sure to setup your config values before running this code. You can
@@ -308,8 +309,6 @@ function receivedMessage(event) {
     var messageText = message.text;
     var messageAttachments = message.attachments;
     var quickReply = message.quick_reply;
-
-    var myCoordinates = []
 
     if (isEcho) {
         // Just logging message echoes to console
