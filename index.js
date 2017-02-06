@@ -309,6 +309,8 @@ function receivedMessage(event) {
     var messageAttachments = message.attachments;
     var quickReply = message.quick_reply;
 
+    var myCoordinates = []
+
     if (isEcho) {
         // Just logging message echoes to console
         console.log("Received echo for message %s and app %d with metadata %s",
@@ -454,8 +456,10 @@ function receivedMessage(event) {
 
                         dataElements.push(repToPush) // Push rep into data array
 
+                        myCoordinates = [messageAttachments.payload.coordinates.lat, messageAttachments.payload.coordinates.long]
+
                         googleMapsClient.reverseGeocode({
-                            latlng: messageAttachments.payload.coordinates.lat + ',' + messageAttachments.payload.coordinates.long
+                            latlng: myCoordinates[0] + ',' + myCoordinates[1]
                         }, function(err, response) {
                             if (!err) {
                                 theLocationData = response.json.results;
