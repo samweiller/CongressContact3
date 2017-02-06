@@ -576,70 +576,76 @@ function receivedPostback(event) {
         repIndex = payload[payload.length - 1];
 
         console.log('NO. LOOK HERE!')
-      //   console.log(scriptData)
-      //   console.log(masterRepData)
+            //   console.log(scriptData)
+            //   console.log(masterRepData)
 
         scriptTemp = masterRepData[repIndex]
-      //   console.log(scriptTemp)
+            //   console.log(scriptTemp)
 
         constituent = "George Milton"
 
         googleMapsClient.reverseGeocode({
             latlng: myCoordinates[0] + ',' + myCoordinates[1]
-       }, function(err, response) {
+        }, function(err, response) {
             if (!err) {
-               console.log('GOT LOCATION')
-               theLocationData = response.json.results;
+                console.log('GOT LOCATION')
+                theLocationData = response.json.results;
 
-               if (scriptTemp.chamber.toLowerCase() == 'senate') {
+                if (scriptTemp.chamber.toLowerCase() == 'senate') {
                     chamberTitle = 'Senator'
-               } else if (scriptTemp.chamber.toLowerCase() == 'house') {
+                } else if (scriptTemp.chamber.toLowerCase() == 'house') {
                     chamberTitle = 'Representative'
-               }
+                } else {
+                    chamberTitle = 'Congressperson'
+                }
 
-               theCity = theLocationData.results[3].address_components[0].long_name;
-               theZip = theLocationData.results[5].address_components[0].long_name;
-               theLastName = toTitleCase(scriptTemp.last_name)
-               phoneNumber = scriptTemp.phone
+                console.log(chamberTitle)
 
-               talkingScript = "Hello. My name is " + constituent + ". I am a constituent from " + theCity + ", zip code " + theZip + ". I do not need a response.  I am in favor of ____/opposed to ____, and I encourage " + chamberTitle + " " + theLastName + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
+                theCity = theLocationData.results[3].address_components[0].long_name;
+                theZip = theLocationData.results[5].address_components[0].long_name;
+                theLastName = toTitleCase(scriptTemp.last_name)
+                phoneNumber = scriptTemp.phone
 
-               // Send script with a call button.
+                console.log(theCity)
 
-               console.log(talkingScript)
+                talkingScript = "Hello. My name is " + constituent + ". I am a constituent from " + theCity + ", zip code " + theZip + ". I do not need a response.  I am in favor of ____/opposed to ____, and I encourage " + chamberTitle + " " + theLastName + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
+
+                // Send script with a call button.
+
+                console.log(talkingScript)
 
 
-               var messageData = {
-                   recipient: {
-                       id: recipientId
-                   },
-                   message: {
-                       attachment: {
-                           type: "template",
-                           payload: {
-                               template_type: "button",
-                               text: talkingScript,
-                               buttons: [{
-                                   type: "phone_number",
-                                   title: "Call the Office",
-                                   payload: "+1" + phoneNumber
-                               }]
-                           }
-                       }
-                   }
-               };
+                var messageData = {
+                    recipient: {
+                        id: recipientId
+                    },
+                    message: {
+                        attachment: {
+                            type: "template",
+                            payload: {
+                                template_type: "button",
+                                text: talkingScript,
+                                buttons: [{
+                                    type: "phone_number",
+                                    title: "Call the Office",
+                                    payload: "+1" + phoneNumber
+                                }]
+                            }
+                        }
+                    }
+                };
 
-               setTimeout(function() {
-                  console.log('sending message')
-                   sendTextMessage(senderID, "You can use this script when you call.")
-                   setTimeout(function() {
-                       callSendAPI(messageData);
-                   }, 1000)
-               }, 1000)
+                setTimeout(function() {
+                    console.log('sending message')
+                    sendTextMessage(senderID, "You can use this script when you call.")
+                    setTimeout(function() {
+                        callSendAPI(messageData);
+                    }, 1000)
+                }, 1000)
             } else {
-               console.log('LOCATION ERROR')
+                console.log('LOCATION ERROR')
             }
-       });
+        });
     }
 }
 
