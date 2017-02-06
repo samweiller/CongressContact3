@@ -722,7 +722,7 @@ function receivedPostback(event) {
                         var messageId = body.message_id;
 
                         console.log('RIGHT HERE, ACTUALLY');
-                        console.log(body);
+                        console.log(body.first_name);
 
                         userName = body.first_name + " " + body.last_name
 
