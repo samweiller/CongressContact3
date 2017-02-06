@@ -606,15 +606,15 @@ function receivedPostback(event) {
                        console.log(theLocationData.address_components[j].types[0]);
                         if (theLocationData.address_components[j].types[0] == 'postal_code') {
                            console.log('log zip');
-                           theZip = theLocationData.address_components[j].types[0]
+                           theZip = theLocationData.address_components[j].long_name
                            console.log(theZip);
                         } else if (theLocationData.address_components[j].types[0] == 'administrative_area_level_1') {
                            console.log('log state');
-                           theState = theLocationData.address_components[j].types[0]
+                           theState = theLocationData.address_components[j].long_name
                            console.log(theState);
                         } else if (theLocationData.address_components[j].types[2] == 'sublocality_level_1') {
                            console.log('log city');
-                           theCity = theLocationData.address_components[j].types[0]
+                           theCity = theLocationData.address_components[j].long_name
                            console.log(theCity);
                         }
                     }
@@ -625,7 +625,7 @@ function receivedPostback(event) {
                 console.log(chamberTitle)
 
                //  theCity = theLocationData[0].address_components[3].long_name;
-                console.log(theCity)
+                console.log(theCity);
                //  theState = theLocationData[0].address_components[5].long_name;
                 console.log(theState)
                //  theZip = theLocationData[0].address_components[7].long_name;
