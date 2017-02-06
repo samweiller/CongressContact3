@@ -604,6 +604,8 @@ function receivedPostback(event) {
 
                 theCity = theLocationData[0].address_components[3].long_name;
                 console.log(theCity)
+                theState = theLocationData[0].address_components[5].long_name;
+                console.log(theState)
                 theZip = theLocationData[0].address_components[7].long_name;
                 console.log(theZip)
                 theLastName = toTitleCase(scriptTemp.last_name)
@@ -612,7 +614,7 @@ function receivedPostback(event) {
                 console.log(phoneNumber);
 
 
-                talkingScript = "Hello. My name is " + constituent + ". I am a constituent from " + theCity + ", zip code " + theZip + ". I do not need a response. I am in favor of ____/opposed to ____, and I encourage " + chamberTitle + " " + theLastName + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
+                talkingScript = "Hello. My name is " + constituent + ". I am a constituent from " + theCity + ", " + theState + ", zip code " + theZip + ". I do not need a response. I am in favor of ____/opposed to ____, and I encourage " + chamberTitle + " " + theLastName + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
 
                 // Send script with a call button.
 
