@@ -586,7 +586,7 @@ function receivedPostback(event) {
         constituent = "George Milton"
 
         googleMapsClient.reverseGeocode({
-            latlng: messageAttachments.payload.coordinates.lat + ',' + messageAttachments.payload.coordinates.long
+            latlng: myCoordinates[0] + ',' + myCoordinates[1]
        }, function(err, response) {
             if (!err) {
                theLocationData = response.json.results;
