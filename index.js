@@ -602,9 +602,9 @@ function receivedPostback(event) {
 
                 console.log(chamberTitle)
 
-                theCity = theLocationData.results[3].address_components[0].long_name;
+                theCity = theLocationData[3].address_components[0].long_name;
                 console.log(theCity)
-                theZip = theLocationData.results[5].address_components[0].long_name;
+                theZip = theLocationData[5].address_components[0].long_name;
                 console.log(theZip)
                 theLastName = toTitleCase(scriptTemp.last_name)
                 console.log(theLastName);
