@@ -588,6 +588,7 @@ function receivedPostback(event) {
             latlng: myCoordinates[0] + ',' + myCoordinates[1]
        }, function(err, response) {
             if (!err) {
+               console.log('GOT LOCATION')
                theLocationData = response.json.results;
 
                if (scriptTemp.chamber.toLowerCase() == 'senate') {
@@ -632,6 +633,8 @@ function receivedPostback(event) {
                        callSendAPI(messageData);
                    }, 1000)
                }, 1000)
+            } else {
+               console.log('LOCATION ERROR')
             }
        });
     }
