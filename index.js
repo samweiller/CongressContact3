@@ -590,7 +590,7 @@ function receivedPostback(event) {
             if (!err) {
                 console.log('GOT LOCATION')
                 theLocationData = response.json.results;
-                console.log(theLocationData)
+                console.log(theLocationData[0])
 
                 if (scriptTemp.chamber.toLowerCase() == 'senate') {
                     chamberTitle = 'Senator'
