@@ -656,13 +656,16 @@ function receivedPostback(event) {
 
                 console.log('message ready to send');
 
-                setTimeout(function() {
-                    console.log('sending message')
-                    sendTextMessage(senderID, "You can use this script when you call.")
-                    setTimeout(function() {
-                        callSendAPI(messageData);
-                    }, 1000)
-                }, 1000)
+                sendTextMessage(senderID, "You can use this script when you call.");
+                callSendAPI(messageData);
+
+               //  setTimeout(function() {
+               //      console.log('sending message')
+               //
+               //      setTimeout(function() {
+               //
+               //      }, 1000)
+               //  }, 1000)
             } else {
                 console.log('LOCATION ERROR')
             }
