@@ -290,7 +290,7 @@ function receivedMessage(event) {
 
     console.log("Received message for user %d and page %d at %d with message:",
         senderID, recipientID, timeOfMessage);
-    console.log(JSON.stringify(message));
+   //  console.log(JSON.stringify(message));
 
     var isEcho = message.is_echo;
     var messageId = message.mid;
@@ -377,7 +377,7 @@ function receivedMessage(event) {
                     return console.error('upload failed:', error);
                 }
                 console.log('Upload successful!  Server responded with:', body);
-                console.log('LOOK HERE')
+               //  console.log('LOOK HERE')
                 var dataPack = JSON.parse(body);
                //  console.log(dataPack)
                //  console.log(dataPack.results.length)
@@ -551,8 +551,8 @@ function receivedPostback(event) {
     console.log("Received postback for user %d and page %d with payload '%s' " +
         "at %d", senderID, recipientID, payload, timeOfPostback);
 
-    console.log('LOOK HERE')
-    console.log(event.postback)
+   //  console.log('LOOK HERE')
+   //  console.log(event.postback)
 
     // When a postback is called, we'll send a message back to the sender to
     // let them know it was successful
@@ -566,7 +566,7 @@ function receivedPostback(event) {
      } else if (payload.indexOf('ABOUT_THIS_BOT_PAYLOAD') > -1) {
 
         structuredPayload = JSON.parse(payload)
-        console.log(structuredPayload);
+      //   console.log(structuredPayload);
         sendTextMessage(senderID, "Franklin was created by Sam Weiller, 2017. Operations are supported by the Sunlight Foundation API, UnitedStates.io, and Google's Geocode API. For any questions, please contact us at franklin@samweiller.io.")
     } else if (payload.indexOf('RESTART_REP_SEARCH_PAYLOAD') > -1) {
         setTimeout(function() {
@@ -580,7 +580,7 @@ function receivedPostback(event) {
 
         payloadData = JSON.parse(payload)
 
-        console.log(payloadData)
+      //   console.log(payloadData)
 
       //   repIndex = payload[payload.length - 1];
 
@@ -597,7 +597,7 @@ function receivedPostback(event) {
             latlng: payloadData.coords_lat + ',' + payloadData.coords_long
         }, function(err, response) {
             if (!err) {
-                console.log('GOT LOCATION')
+               //  console.log('GOT LOCATION')
                 theLocationData = response.json.results[0];
                //  console.log(theLocationData)
 
@@ -615,7 +615,7 @@ function receivedPostback(event) {
                theState = '';
                theCity = '';
                     for (j = 0; j < theLocationData.address_components.length; j++) {
-                       console.log(theLocationData.address_components[j].types[0]);
+                     //   console.log(theLocationData.address_components[j].types[0]);
                         if (theLocationData.address_components[j].types[0] == 'postal_code') {
                            theZip = theLocationData.address_components[j].long_name
                         } else if (theLocationData.address_components[j].types[0] == 'administrative_area_level_1') {
@@ -787,9 +787,9 @@ function receivedPostback(event) {
                 },
             }
         }
-        console.log('sending Now')
+      //   console.log('sending Now')
         callSendAPI(messageContent)
-        console.log('should be sent')
+      //   console.log('should be sent')
 
       //   sendTextMessage(senderID, addressText)
     }
