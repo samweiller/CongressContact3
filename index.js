@@ -93,7 +93,7 @@ request({
     json: {
         setting_type: "greeting",
         greeting: {
-            text: "Franklin helps you call your senators and representatives to tell them about the causes you care about."
+            text: ""
         }
     }
 }, function(error, response, body) {
@@ -146,61 +146,6 @@ request({
     }
     console.log('Upload successful!  Server responded with:', body);
 })
-
-request({
-    uri: 'https://graph.facebook.com/v2.6/me/',
-    qs: {
-        access_token: PAGE_ACCESS_TOKEN
-    },
-    method: 'GET'
-
-}, function(error, response, body) {
-    if (!error && response.statusCode == 200) {
-        var recipientId = body.id;
-        var messageId = body.message_id;
-
-        console.log('RIGHT HERE');
-        console.log(body);
-
-        request({
-            uri: 'https://graph.facebook.com/v2.6/' + recipientId,
-            qs: {
-               access_token: PAGE_ACCESS_TOKEN
-            },
-            method: 'GET'
-
-        }, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                var recipientId = body.recipient_id;
-                var messageId = body.message_id;
-
-                console.log('RIGHT HERE, ACTUALLY');
-                console.log(body);
-
-                if (messageId) {
-                    console.log("Successfully sent message with id %s to recipient %s", messageId, recipientId);
-                        console.log(body);
-                } else {
-                    console.log("Successfully called Send API for recipient %s",
-                        recipientId);
-                }
-            } else {
-                console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
-            }
-        });
-
-        if (messageId) {
-            console.log("Successfully sent message with id %s to recipient %s", messageId, recipientId);
-                console.log(body);
-        } else {
-            console.log("Successfully called Send API for recipient %s",
-                recipientId);
-        }
-    } else {
-        console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
-    }
-});
-
 
 /*
  * All callbacks for Messenger are POST-ed. They will be sent to the same
@@ -812,31 +757,6 @@ function receivedPostback(event) {
         addressText = scriptTemp.first_name + " " + scriptTemp.last_name + "\n" + scriptTemp.office + "\n" + "Washington, DC, " + chamberZip
 
         sendTextMessage(senderID, addressText)
-      //   var messageData = {
-      //       recipient: {
-      //          id: senderID
-      //       },
-      //       message: {
-      //          attachment: {
-      //               type: "template",
-      //               payload: {
-      //                   template_type: "button",
-      //                   text: "In addition to calling, here are some other actions you can take.",
-      //                   buttons: [{
-      //                      type: "postback",
-      //                      title: "Save Number to Phone",
-      //                      payload: "SAVE_REP_NUMBER_" + repIndex
-      //                   }, {
-      //                      type: "postback",
-      //                      title: "Get Mailing Address",
-      //                      payload: "GET_MAILING_ADDRESS_" + repIndex
-      //                   }]
-      //               }
-      //          }
-      //       }
-      //  }
-       //
-      //  callSendAPI(messageData);
     }
 }
 
