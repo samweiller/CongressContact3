@@ -739,6 +739,28 @@ function receivedPostback(event) {
                         console.log(talkingScript)
 
 
+                        // var messageData = {
+                        //     recipient: {
+                        //         id: senderID
+                        //     },
+                        //     message: {
+                        //         attachment: {
+                        //             type: "template",
+                        //             payload: {
+                        //                 template_type: "button",
+                        //                 text: talkingScript,
+                        //                 buttons: [{
+                        //                     type: "phone_number",
+                        //                     title: "Call the Office",
+                        //                     payload: "+1" + phoneNumber
+                        //                 }, {
+                        //                    type: "element_share"
+                        //                 }]
+                        //             }
+                        //         }
+                        //     }
+                        // }
+
                         var messageData = {
                             recipient: {
                                 id: senderID
@@ -747,11 +769,24 @@ function receivedPostback(event) {
                                 attachment: {
                                     type: "template",
                                     payload: {
-                                        template_type: "button",
-                                        text: talkingScript,
-                                        buttons: [{
-                                           type: "element_share"
+                                        template_type: "generic",
+                                        "elements": [{
+                                           "title": "Script",
+                                           image_url: "#",
+                                           subtitle: "foo bar",
+                                           default_action: {
+                                              "type": "web_url",
+                                              "url": "http://facebook.com"
+                                           },
+                                           buttons: [{
+                                               type: "phone_number",
+                                               title: "Call the Office",
+                                               payload: "+1" + phoneNumber
+                                           }, {
+                                              type: "element_share"
+                                           }]
                                         }]
+
                                     }
                                 }
                             }
