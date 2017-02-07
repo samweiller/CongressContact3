@@ -424,6 +424,38 @@ function receivedMessage(event) {
 
                         imageURL = "https://theunitedstates.io/images/congress/225x275/" + repData.bioguide_id + ".jpg"
 
+                        theContactPayload = {
+                           'payloadID': 'GENERATE_SCRIPT',
+                           'rep_first_name': repData.first_name,
+                           'rep_last_name': repData.last_name,
+                           'rep_phone': repData.phone,
+                           'chamber_title': repArticle,
+                           'coords_lat': messageAttachments.payload.coordinates.lat,
+                           'coords_long': messageAttachments.payload.coordinates.long,
+                           'bioguide': repData.bioguide_id
+                        }
+
+                        theContactPayload = JSON.stringify(theContactPayload)
+
+                        if (scriptTemp.chamber.toLowerCase() == 'senate') {
+                            chamberZip = '20510'
+                        } else if (scriptTemp.chamber.toLowerCase() == 'house') {
+                            chamberZip = '20515'
+                        } else {
+                            chamberZip = '20510'
+                        }
+
+                        addressText = repData.first_name + " " + repData.last_name + "\n" + repData.office + "\n" + "Washington, DC, " + chamberZip
+
+                        theInfoPayload = {
+                           'payloadID': 'GENERATE_MORE_OPTIONS',
+                           'rep_address': addressText,
+                           'twitter': repData.twitter_id,
+                           'bioguide': repData.bioguide_id
+                        }
+
+                        theInfoPayload = JSON.stringify(theInfoPayload)
+
                         repToPush = {
                             title: theName,
                             image_url: imageURL,
@@ -435,11 +467,11 @@ function receivedMessage(event) {
                             "buttons": [{
                                 "type": "postback",
                                 "title": "Contact " + repArticle,
-                                "payload": "GENERATE_SCRIPT_" + cPeople
+                                "payload": theContactPayload
                             }, {
                                 "type": "postback",
                                 "title": "More Options",
-                                "payload": "GENERATE_MORE_OPTIONS_" + cPeople
+                                "payload": theInfoPayload
                             }]
                         }
 
@@ -463,9 +495,7 @@ function receivedMessage(event) {
                             },
                         }
                     }
-                    console.log('sending Now')
                     callSendAPI(messageContent)
-                    console.log('should be sent')
                 }
             })
         }
@@ -543,34 +573,36 @@ function receivedPostback(event) {
             }, 2000)
         }, 1000)
     } else if (payload.indexOf('GENERATE_SCRIPT') > -1) {
-        repIndex = payload[payload.length - 1];
+        payloadData = JSON.parse(payload)
 
-        console.log('NO. LOOK HERE!')
+      //   repIndex = payload[payload.length - 1];
+
+      //   console.log('NO. LOOK HERE!')
             //   console.log(scriptData)
             //   console.log(masterRepData)
 
-        scriptTemp = masterRepData[repIndex]
+      //   scriptTemp = masterRepData[repIndex]
             //   console.log(scriptTemp)
 
-        constituent = "George Milton"
+      //   constituent = "George Milton"
 
         googleMapsClient.reverseGeocode({
-            latlng: myCoordinates[0] + ',' + myCoordinates[1]
+            latlng: payloadData.coords_lat + ',' + payloadData.coords_long
         }, function(err, response) {
             if (!err) {
                 console.log('GOT LOCATION')
                 theLocationData = response.json.results[0];
                //  console.log(theLocationData)
 
-                if (scriptTemp.chamber.toLowerCase() == 'senate') {
-                    chamberTitle = 'Senator'
-                } else if (scriptTemp.chamber.toLowerCase() == 'house') {
-                    chamberTitle = 'Representative'
-                } else {
-                    chamberTitle = 'Congressperson'
-                }
+               //  if (scriptTemp.chamber.toLowerCase() == 'senate') {
+               //      chamberTitle = 'Senator'
+               //  } else if (scriptTemp.chamber.toLowerCase() == 'house') {
+               //      chamberTitle = 'Representative'
+               //  } else {
+               //      chamberTitle = 'Congressperson'
+               //  }
 
-                console.log(theLocationData.address_components.length);
+               //  console.log(theLocationData.address_components.length);
                //  if (theLocationData) {
                theZip = '';
                theState = '';
@@ -578,17 +610,11 @@ function receivedPostback(event) {
                     for (j = 0; j < theLocationData.address_components.length; j++) {
                        console.log(theLocationData.address_components[j].types[0]);
                         if (theLocationData.address_components[j].types[0] == 'postal_code') {
-                           console.log('log zip');
                            theZip = theLocationData.address_components[j].long_name
-                           console.log(theZip);
                         } else if (theLocationData.address_components[j].types[0] == 'administrative_area_level_1') {
-                           console.log('log state');
                            theState = theLocationData.address_components[j].long_name
-                           console.log(theState);
                         } else if (theLocationData.address_components[j].types[0] == 'locality') {
-                           console.log('log city');
                            theCity = theLocationData.address_components[j].long_name
-                           console.log(theCity);
                         }
                     }
                //  }
@@ -598,27 +624,27 @@ function receivedPostback(event) {
                      if (theLocationData.address_components[j].types[0] == 'political') {
                         if (theLocationData.address_components[j].types[1] == 'sublocality') {
                            theCity = theLocationData.address_components[j].long_name
-                           console.log('MISSING CITY FOUND')
-                           console.log(theCity);
                         }
                      }
                   }
                }
 
-               console.log('hello I am here');
+               // console.log('hello I am here');
+               //
+               //  console.log(chamberTitle)
+               //
+               // //  theCity = theLocationData[0].address_components[3].long_name;
+               //  console.log(theCity);
+               // //  theState = theLocationData[0].address_components[5].long_name;
+               //  console.log(theState)
+               // //  theZip = theLocationData[0].address_components[7].long_name;
+               //  console.log(theZip)
 
-                console.log(chamberTitle)
-
-               //  theCity = theLocationData[0].address_components[3].long_name;
-                console.log(theCity);
-               //  theState = theLocationData[0].address_components[5].long_name;
-                console.log(theState)
-               //  theZip = theLocationData[0].address_components[7].long_name;
-                console.log(theZip)
-                theLastName = toTitleCase(scriptTemp.last_name)
-                console.log(theLastName);
-                phoneNumber = scriptTemp.phone
-                console.log(phoneNumber);
+               // NOT NEEDED. WILL REMOVE ASAP
+               //  theLastName = toTitleCase(scriptTemp.last_name)
+               //  console.log(theLastName);
+               //  phoneNumber = scriptTemp.phone
+               //  console.log(phoneNumber);
 
 
                 request({
@@ -633,21 +659,16 @@ function receivedPostback(event) {
                         var recipientId = body.recipient_id;
                         var messageId = body.message_id;
 
-                        console.log('RIGHT HERE, ACTUALLY');
-                        // console.log(body.first_name);
-
                         userData = JSON.parse(body);
 
-                        console.log(userData)
+                        // console.log(userData)
 
                         userName = userData.first_name + " " + userData.last_name
 
-                        talkingScript = "Hello. My name is " + userName + ". I am a constituent from " + theCity + ", " + theState + ", zip code " + theZip + ". I do not need a response. I am in favor of/opposed to ____, and I encourage " + chamberTitle + " " + theLastName + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
+                        talkingScript = "Hello. My name is " + userName + ". I am a constituent from " + theCity + ", " + theState + ", zip code " + theZip + ". I do not need a response. I am in favor of/opposed to ____, and I encourage " + payloadData.chamber_title + " " + payloadData.last_name + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
 
                         // Send script with a call button.
-
                         console.log(talkingScript)
-
 
                         var messageData = {
                             recipient: {
@@ -662,7 +683,7 @@ function receivedPostback(event) {
                                         buttons: [{
                                             type: "phone_number",
                                             title: "Call the Office",
-                                            payload: "+1" + phoneNumber
+                                            payload: "+1" + payloadData.rep_phone
                                         }]
                                     }
                                 }
@@ -683,8 +704,16 @@ function receivedPostback(event) {
             }
         });
     } else if (payload.indexOf('GENERATE_MORE_OPTIONS') > -1) {
-        repIndex = payload[payload.length - 1];
-        scriptTemp = masterRepData[repIndex]
+         payloadData = JSON.parse(payload)
+      //   repIndex = payload[payload.length - 1];
+      //   scriptTemp = masterRepData[repIndex]
+
+      theMailingPayload = {
+         'payloadID': 'GET_MAILING_ADDRESS',
+         'rep_address': payloadData.rep_address
+      }
+
+      theMailingPayload = JSON.stringify(theMailingPayload)
 
         var messageData = {
             recipient: {
@@ -699,7 +728,7 @@ function receivedPostback(event) {
                         buttons: [{
                            type: "postback",
                            title: "Get Mailing Address",
-                           payload: "GET_MAILING_ADDRESS_" + repIndex
+                           payload: theMailingPayload
                         }]
                     }
                }
@@ -708,20 +737,8 @@ function receivedPostback(event) {
 
        callSendAPI(messageData);
     } else if (payload.indexOf('GET_MAILING_ADDRESS') > -1) {
-        repIndex = payload[payload.length - 1];
-        scriptTemp = masterRepData[repIndex]
-
-        if (scriptTemp.chamber.toLowerCase() == 'senate') {
-            chamberZip = '20510'
-        } else if (scriptTemp.chamber.toLowerCase() == 'house') {
-            chamberZip = '20515'
-        } else {
-            chamberZip = '20510'
-        }
-
-        addressText = scriptTemp.first_name + " " + scriptTemp.last_name + "\n" + scriptTemp.office + "\n" + "Washington, DC, " + chamberZip
-
-        sendTextMessage(senderID, addressText)
+        payloadData = JSON.parse(payload)
+        sendTextMessage(senderID, payloadData.rep_address)
     } else if (payload.indexOf('GO_TO_TWITTER') > -1) {
         repIndex = payload[payload.length - 1];
         scriptTemp = masterRepData[repIndex]
