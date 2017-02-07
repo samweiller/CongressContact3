@@ -137,7 +137,7 @@ request({
         }, {
             "type": "postback",
             "title": "About Franklin",
-            "payload": "ABOUT_THIS_BOT_PAYLOAD"
+            "payload": "ABOUT_THIS_BOT_PAYLOAD, 30318, EO2091"
         }]
     }
 }, function(error, response, body) {
@@ -569,6 +569,7 @@ function receivedPostback(event) {
             sendLocationRequest(senderID)
         }, 2000)
      } else if (payload.indexOf('ABOUT_THIS_BOT_PAYLOAD') > -1) {
+        console.log(payload);
         sendTextMessage(senderID, "Franklin was created by Sam Weiller, 2017. Operations are supported by the Sunlight Foundation API, UnitedStates.io, and Google's Geocode API. For any questions, please contact us at franklin@samweiller.io.")
     } else if (payload.indexOf('RESTART_REP_SEARCH_PAYLOAD') > -1) {
         setTimeout(function() {
