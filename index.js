@@ -362,7 +362,7 @@ function receivedMessage(event) {
                 break;
 
             default:
-                sendTextMessage(senderID, messageText);
+               //  sendTextMessage(senderID, messageText);
         }
     } else if (messageAttachments) {
         messageAttachments = messageAttachments[0]
@@ -735,10 +735,6 @@ function receivedPostback(event) {
                            type: "postback",
                            title: "Get Mailing Address",
                            payload: "GET_MAILING_ADDRESS_" + repIndex
-                        }, {
-                           type: "postback",
-                           title: "Go to Twitter",
-                           payload: "GO_TO_TWITTER_" + repIndex
                         }]
                     }
                }
@@ -786,7 +782,7 @@ function receivedPostback(event) {
                     "type": "template",
                     "payload": {
                         "template_type": "generic",
-                        "elements": {
+                        "elements": [{
                             title: "Visit " + chamberTitle + " " + scriptTemp.last_name + " on Twitter.",
                             image_url: imageURL,
                             subtitle: "Twitter",
@@ -797,7 +793,7 @@ function receivedPostback(event) {
                             "buttons": [{
                                 "type": "element_share"
                             }]
-                        }
+                        }]
                     }
                 },
             }
