@@ -754,7 +754,7 @@ function receivedPostback(event) {
                                             title: "Call the Office",
                                             payload: "+1" + phoneNumber
                                         }, {
-                                           type: "share_element"
+                                           type: "element_share"
                                         }]
                                     }
                                 }
