@@ -421,11 +421,11 @@ function receivedMessage(event) {
                         theFullSubtitle = toTitleCase(repData.chamber) + " - " + theParty
 
                         if (repData.gender == 'M') {
-                           repArticle = 'his';
+                           repArticle = 'Him';
                         } else if (repData.gender == 'F') {
-                           repArticle = 'her'
+                           repArticle = 'Her'
                         } else {
-                           repArticle = 'their'
+                           repArticle = 'Them'
                         }
 
                         theURL = repData.website
@@ -447,7 +447,7 @@ function receivedMessage(event) {
                             },
                             "buttons": [{
                                 "type": "postback",
-                                "title": "Call " + repArticle + " DC Office",
+                                "title": "Contact " + repArticle,
                                 "payload": "GENERATE_SCRIPT_" + cPeople
                             }, {
                                 "type": "postback",
@@ -735,6 +735,10 @@ function receivedPostback(event) {
                            type: "postback",
                            title: "Get Mailing Address",
                            payload: "GET_MAILING_ADDRESS_" + repIndex
+                        }, {
+                           type: "postback",
+                           title: "Go to Twitter",
+                           payload: "GO_TO_TWITTER_" + repIndex
                         }]
                     }
                }
@@ -757,6 +761,52 @@ function receivedPostback(event) {
         addressText = scriptTemp.first_name + " " + scriptTemp.last_name + "\n" + scriptTemp.office + "\n" + "Washington, DC, " + chamberZip
 
         sendTextMessage(senderID, addressText)
+    } else if (payload.indexOf('GO_TO_TWITTER') > -1) {
+        repIndex = payload[payload.length - 1];
+        scriptTemp = masterRepData[repIndex]
+
+        imageURL = "https://theunitedstates.io/images/congress/225x275/" + scriptTemp.bioguide_id + ".jpg"
+
+        if (scriptTemp.chamber.toLowerCase() == 'senate') {
+            chamberTitle = 'Senator'
+        } else if (scriptTemp.chamber.toLowerCase() == 'house') {
+            chamberTitle = 'Representative'
+        } else {
+            chamberTitle = 'Congressperson'
+        }
+
+        theURL = 'http://twitter.com/' + scriptTemp.twitter_id
+
+        var messageContent = {
+            "recipient": {
+                id: senderID
+            },
+            "message": {
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "generic",
+                        "elements": {
+                            title: "Visit " + chamberTitle + " " + scriptTemp.last_name + " on Twitter.",
+                            image_url: imageURL,
+                            subtitle: "",
+                            "default_action": {
+                                "type": "web_url",
+                                "url": theURL
+                            },
+                            "buttons": [{
+                                "type": "element_share"
+                            }]
+                        }
+                    }
+                },
+            }
+        }
+        console.log('sending Now')
+        callSendAPI(messageContent)
+        console.log('should be sent')
+
+      //   sendTextMessage(senderID, addressText)
     }
 }
 
