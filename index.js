@@ -84,25 +84,6 @@ request({
     }
 });
 
-// request({
-//     uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
-//     qs: {
-//         access_token: PAGE_ACCESS_TOKEN
-//     },
-//     method: 'POST',
-//     json: {
-//         setting_type: "greeting",
-//         greeting: {
-//             text: "Franklin helps you call your senators and representatives to tell them about the causes you care about."
-//         }
-//     }
-// }, function(error, response, body) {
-//     if (error) {
-//         return console.error('upload failed:', error);
-//     }
-//     console.log('Upload successful!  Server responded with:', body);
-// })
-
 request({
     uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
     qs: {
@@ -137,7 +118,7 @@ request({
         }, {
             "type": "postback",
             "title": "About Franklin",
-            "payload": "ABOUT_THIS_BOT_PAYLOAD, 30318, EO2091"
+            "payload": "ABOUT_THIS_BOT_PAYLOAD"
         }]
     }
 }, function(error, response, body) {
@@ -366,13 +347,8 @@ function receivedMessage(event) {
         }
     } else if (messageAttachments) {
         messageAttachments = messageAttachments[0]
-            //   sendTextMessage(senderID, "Message with attachment received");
-            //   console.log('LOOK HERE')
-            //   console.log(messageAttachments)
         if (messageAttachments.type === 'location') {
             sendTextMessage(senderID, "Excellent! Hang on while I find your representatives.")
-                //   var theMessageContent = "Your location is Lat: " + messageAttachments.payload.coordinates.lat + ", Long: " + messageAttachments.payload.coordinates.long + "."
-                //   sendTextMessage(senderID, theMessageContent)
 
             // Get Reps from Sunight
             request({
@@ -394,9 +370,6 @@ function receivedMessage(event) {
                 if (dataPack.results.length == 0) {
                     sendTextMessage(senderID, "Looks like there are no congresspeople in that area. Please select another location using the menu.")
                 } else {
-                    //  console.log(fooBar.results[0].last_name)
-                    //  sendTextMessage(senderID, "Got it!")
-
                     // build congressperson data cards
                     dataElements = []
                     masterRepData = []
