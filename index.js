@@ -575,6 +575,8 @@ function receivedPostback(event) {
     } else if (payload.indexOf('GENERATE_SCRIPT') > -1) {
         payloadData = JSON.parse(payload)
 
+        console.log(payloadData)
+
       //   repIndex = payload[payload.length - 1];
 
       //   console.log('NO. LOOK HERE!')
