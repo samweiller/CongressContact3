@@ -530,7 +530,8 @@ function receivedPostback(event) {
             sendLocationRequest(senderID)
         }, 2000)
      } else if (payload.indexOf('ABOUT_THIS_BOT_PAYLOAD') > -1) {
-        console.log(payload);
+        structuredPayload = JSON.parse(payload)
+        console.log(structuredPayload);
         sendTextMessage(senderID, "Franklin was created by Sam Weiller, 2017. Operations are supported by the Sunlight Foundation API, UnitedStates.io, and Google's Geocode API. For any questions, please contact us at franklin@samweiller.io.")
     } else if (payload.indexOf('RESTART_REP_SEARCH_PAYLOAD') > -1) {
         setTimeout(function() {
