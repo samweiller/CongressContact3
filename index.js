@@ -379,8 +379,8 @@ function receivedMessage(event) {
                 console.log('Upload successful!  Server responded with:', body);
                 console.log('LOOK HERE')
                 var dataPack = JSON.parse(body);
-                console.log(dataPack)
-                console.log(dataPack.results.length)
+               //  console.log(dataPack)
+               //  console.log(dataPack.results.length)
                 if (dataPack.results.length == 0) {
                     sendTextMessage(senderID, "Looks like there are no congresspeople in that area. Please select another location using the menu.")
                 } else {
@@ -422,6 +422,17 @@ function receivedMessage(event) {
                         //  theURL = repData.website.replace('http', 'https')
                         //  console.log(theURL)
 
+                        if (repData.chamber.toLowerCase() == 'senate') {
+                           chamberTitle = 'Senator'
+                            chamberZip = '20510'
+                        } else if (repData.chamber.toLowerCase() == 'house') {
+                           chamberTitle = 'Representative'
+                            chamberZip = '20515'
+                        } else {
+                           chamberTitle = 'Congressperson'
+                            chamberZip = '20510'
+                        }
+
                         imageURL = "https://theunitedstates.io/images/congress/225x275/" + repData.bioguide_id + ".jpg"
 
                         theContactPayload = {
@@ -429,21 +440,13 @@ function receivedMessage(event) {
                            'rep_first_name': repData.first_name,
                            'rep_last_name': repData.last_name,
                            'rep_phone': repData.phone,
-                           'chamber_title': repArticle,
+                           'chamber_title': chamberTitle,
                            'coords_lat': messageAttachments.payload.coordinates.lat,
                            'coords_long': messageAttachments.payload.coordinates.long,
                            'bioguide': repData.bioguide_id
                         }
 
                         theContactPayload = JSON.stringify(theContactPayload)
-
-                        if (repData.chamber.toLowerCase() == 'senate') {
-                            chamberZip = '20510'
-                        } else if (repData.chamber.toLowerCase() == 'house') {
-                            chamberZip = '20515'
-                        } else {
-                            chamberZip = '20510'
-                        }
 
                         addressText = repData.first_name + " " + repData.last_name + "\n" + repData.office + "\n" + "Washington, DC, " + chamberZip
 
@@ -573,6 +576,8 @@ function receivedPostback(event) {
             }, 2000)
         }, 1000)
     } else if (payload.indexOf('GENERATE_SCRIPT') > -1) {
+
+
         payloadData = JSON.parse(payload)
 
         console.log(payloadData)
@@ -667,7 +672,7 @@ function receivedPostback(event) {
 
                         userName = userData.first_name + " " + userData.last_name
 
-                        talkingScript = "Hello. My name is " + userName + ". I am a constituent from " + theCity + ", " + theState + ", zip code " + theZip + ". I do not need a response. I am in favor of/opposed to ____, and I encourage " + payloadData.chamber_title + " " + payloadData.last_name + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
+                        talkingScript = "Hello. My name is " + userName + ". I am a constituent from " + theCity + ", " + theState + ", zip code " + theZip + ". I do not need a response. I am in favor of/opposed to ____, and I encourage " + payloadData.chamber_title + " " + payloadData.rep_last_name + " to please support/oppose this as well. Thanks for your hard work answering the phones!"
 
                         // Send script with a call button.
                         console.log(talkingScript)
