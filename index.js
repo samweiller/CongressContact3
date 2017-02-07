@@ -93,7 +93,7 @@ request({
     json: {
         setting_type: "greeting",
         greeting: {
-            text: "This is an amazing greeting."
+            text: "Franklin helps you call your senators and representatives to tell them about the causes you care about."
         }
     }
 }, function(error, response, body) {
@@ -136,7 +136,7 @@ request({
             "payload": "RESTART_REP_SEARCH_PAYLOAD"
         }, {
             "type": "postback",
-            "title": "About Hana",
+            "title": "About Franklin",
             "payload": "ABOUT_THIS_BOT_PAYLOAD"
         }]
     }
@@ -623,6 +623,8 @@ function receivedPostback(event) {
         setTimeout(function() {
             sendLocationRequest(senderID)
         }, 2000)
+     } else if (payload.indexOf('ABOUT_THIS_BOT_PAYLOAD') > -1) {
+        sendTextMessage(senderID, "Franklin was created by Sam Weiller, 2017. Operations are supported by the Sunlight Foundation API, UnitedStates.io, and Google's Geocode API. For any questions, please contact us at franklin@samweiller.io.")
     } else if (payload.indexOf('RESTART_REP_SEARCH_PAYLOAD') > -1) {
         setTimeout(function() {
             sendTextMessage(senderID, "Let's look up some more representatives.")
@@ -751,6 +753,8 @@ function receivedPostback(event) {
                                             type: "phone_number",
                                             title: "Call the Office",
                                             payload: "+1" + phoneNumber
+                                        }, {
+                                           type: "element_share"
                                         }]
                                     }
                                 }
