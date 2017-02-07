@@ -437,9 +437,9 @@ function receivedMessage(event) {
 
                         theContactPayload = JSON.stringify(theContactPayload)
 
-                        if (scriptTemp.chamber.toLowerCase() == 'senate') {
+                        if (repData.chamber.toLowerCase() == 'senate') {
                             chamberZip = '20510'
-                        } else if (scriptTemp.chamber.toLowerCase() == 'house') {
+                        } else if (repData.chamber.toLowerCase() == 'house') {
                             chamberZip = '20515'
                         } else {
                             chamberZip = '20510'
