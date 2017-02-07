@@ -789,7 +789,7 @@ function receivedPostback(event) {
                         "elements": {
                             title: "Visit " + chamberTitle + " " + scriptTemp.last_name + " on Twitter.",
                             image_url: imageURL,
-                            subtitle: "",
+                            subtitle: "Twitter",
                             "default_action": {
                                 "type": "web_url",
                                 "url": theURL
