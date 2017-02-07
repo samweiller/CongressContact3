@@ -508,6 +508,8 @@ function receivedMessage(event) {
                                 "type": "postback",
                                 "title": "More Options",
                                 "payload": "GENERATE_MORE_OPTIONS_" + cPeople
+                            }, {
+                               type: "element_share"
                             }]
                         }
 
