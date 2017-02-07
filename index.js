@@ -102,6 +102,17 @@ request({
     console.log('Upload successful!  Server responded with:', body);
 })
 
+myPayload = {
+   'name': 'sam',
+   'age': '25',
+   'meta': {
+      'time': '4',
+      'date': '28'
+   }
+}
+
+myPayload = JSON.stringify(myPayload)
+
 request({
     uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
     qs: {
@@ -118,7 +129,7 @@ request({
         }, {
             "type": "postback",
             "title": "About Franklin",
-            "payload": "ABOUT_THIS_BOT_PAYLOAD"
+            "payload": myPayload
         }]
     }
 }, function(error, response, body) {
@@ -350,6 +361,8 @@ function receivedMessage(event) {
         if (messageAttachments.type === 'location') {
             sendTextMessage(senderID, "Excellent! Hang on while I find your representatives.")
 
+            // theZip =
+
             // Get Reps from Sunight
             request({
                 uri: 'https://congress.api.sunlightfoundation.com/legislators/locate',
@@ -432,31 +445,6 @@ function receivedMessage(event) {
                         dataElements.push(repToPush) // Push rep into data array
 
                         myCoordinates = [messageAttachments.payload.coordinates.lat, messageAttachments.payload.coordinates.long]
-
-                        // googleMapsClient.reverseGeocode({
-                        //     latlng: myCoordinates[0] + ',' + myCoordinates[1]
-                        // }, function(err, response) {
-                        //     if (!err) {
-                        //         theLocationData = response.json.results;
-                        //
-                        //         if (repData.chamber.toLowerCase() == 'senate') {
-                        //             chamberTitle = 'Senator'
-                        //         } else if (repData.chamber.toLowerCase() == 'house') {
-                        //             chamberTitle = 'Representative'
-                        //         }
-                        //
-                        //         scriptDataPoint = {
-                        //             constituent: 'James Fillmore',
-                        //             city: theLocationData.results[3].address_components[0].long_name,
-                        //             zip: theLocationData.results[5].address_components[0].long_name,
-                        //             chamber_title: chamberTitle,
-                        //             last_name: toTitleCase(repData.last_name),
-                        //             phone_number: repData.phone
-                        //         }
-                        //
-                        //         scriptData.push(scriptDataPoint)
-                        //     }
-                        // });
                     }
 
                     // CALL SEND API
