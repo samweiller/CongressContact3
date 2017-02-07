@@ -508,8 +508,6 @@ function receivedMessage(event) {
                                 "type": "postback",
                                 "title": "More Options",
                                 "payload": "GENERATE_MORE_OPTIONS_" + cPeople
-                            }, {
-                               type: "element_share"
                             }]
                         }
 
@@ -755,8 +753,6 @@ function receivedPostback(event) {
                                             type: "phone_number",
                                             title: "Call the Office",
                                             payload: "+1" + phoneNumber
-                                        }, {
-                                           type: "element_share"
                                         }]
                                     }
                                 }
@@ -776,6 +772,71 @@ function receivedPostback(event) {
                 console.log('LOCATION ERROR')
             }
         });
+    } else if (payload.indexOf('GENERATE_MORE_OPTIONS') > -1) {
+        repIndex = payload[payload.length - 1];
+        scriptTemp = masterRepData[repIndex]
+
+        var messageData = {
+            recipient: {
+               id: senderID
+            },
+            message: {
+               attachment: {
+                    type: "template",
+                    payload: {
+                        template_type: "button",
+                        text: "In addition to calling, here are some other actions you can take.",
+                        buttons: [{
+                           type: "postback",
+                           title: "Get Mailing Address",
+                           payload: "GET_MAILING_ADDRESS_" + repIndex
+                        }]
+                    }
+               }
+            }
+       }
+
+       callSendAPI(messageData);
+    } else if (payload.indexOf('GET_MAILING_ADDRESS') > -1) {
+        repIndex = payload[payload.length - 1];
+        scriptTemp = masterRepData[repIndex]
+
+        if (scriptTemp.chamber.toLowerCase() == 'senate') {
+            chamberZip = '20510'
+        } else if (scriptTemp.chamber.toLowerCase() == 'house') {
+            chamberZip = '20515'
+        } else {
+            chamberZip = '20510'
+        }
+
+        addressText = scriptTemp.first_name + " " + scriptTemp.last_name + "\n" + scriptTemp.office + "\n" + "Washington, DC, " + chamberZip
+
+        sendTextMessage(senderID, addressText)
+      //   var messageData = {
+      //       recipient: {
+      //          id: senderID
+      //       },
+      //       message: {
+      //          attachment: {
+      //               type: "template",
+      //               payload: {
+      //                   template_type: "button",
+      //                   text: "In addition to calling, here are some other actions you can take.",
+      //                   buttons: [{
+      //                      type: "postback",
+      //                      title: "Save Number to Phone",
+      //                      payload: "SAVE_REP_NUMBER_" + repIndex
+      //                   }, {
+      //                      type: "postback",
+      //                      title: "Get Mailing Address",
+      //                      payload: "GET_MAILING_ADDRESS_" + repIndex
+      //                   }]
+      //               }
+      //          }
+      //       }
+      //  }
+       //
+      //  callSendAPI(messageData);
     }
 }
 
