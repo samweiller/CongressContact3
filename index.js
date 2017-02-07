@@ -750,11 +750,11 @@ function receivedPostback(event) {
                                         template_type: "button",
                                         text: talkingScript,
                                         buttons: [{
-                                           type: "element_share"
-                                        }, {
                                             type: "phone_number",
                                             title: "Call the Office",
                                             payload: "+1" + phoneNumber
+                                        }, {
+                                           type: "share_element"
                                         }]
                                     }
                                 }
