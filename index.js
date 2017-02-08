@@ -129,7 +129,7 @@ request({
             "payload": "RESTART_REP_SEARCH_PAYLOAD"
         }, {
             "type": "postback",
-            "title": "About Franklin",
+            "title": "About Jefferson",
             "payload": myPayload
         }]
     }
@@ -559,7 +559,7 @@ function receivedPostback(event) {
     // sendTextMessage(senderID, "Postback called");
 
     if (payload.indexOf('WELCOME_PAYLOAD') > -1) {
-        sendTextMessage(senderID, "Hello! I'm Franklin. I can help you get in contact with your congresspeople.");
+        sendTextMessage(senderID, "Hello! I'm Jefferson. I can help you get in contact with your congresspeople.");
         setTimeout(function() {
             sendLocationRequest(senderID)
         }, 2000)
@@ -567,7 +567,7 @@ function receivedPostback(event) {
 
         structuredPayload = JSON.parse(payload)
       //   console.log(structuredPayload);
-        sendTextMessage(senderID, "Franklin was created by Sam Weiller, 2017. Operations are supported by the Sunlight Foundation API, UnitedStates.io, and Google's Geocode API. For any questions, please contact us at franklin@samweiller.io.")
+        sendTextMessage(senderID, "Jefferson was created by Sam Weiller, 2017. Operations are supported by the Sunlight Foundation API, UnitedStates.io, and Google's Geocode API. For any questions, please visit us at CallWithJefferson.org or contact us at jefferson@samweiller.io.")
     } else if (payload.indexOf('RESTART_REP_SEARCH_PAYLOAD') > -1) {
         setTimeout(function() {
             sendTextMessage(senderID, "Let's look up some more representatives.")
