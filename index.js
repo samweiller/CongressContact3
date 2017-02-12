@@ -1,5 +1,10 @@
-/* jshint node: true, devel: true */
-// 'use strict';
+/////////////////////////////
+//  WELCOME TO JEFFERSON!  //
+/////////////////////////////
+//  You're in for a real   //
+//  treat.                 //
+/////////////////////////////
+
 
 const
     bodyParser = require('body-parser'),
@@ -25,7 +30,6 @@ var myCoordinates = []
 /*
  * Be sure to setup your config values before running this code. You can
  * set them using environment variables or modifying the config file in /config.
- *
  */
 
 // App Secret can be retrieved from the App Dashboard
@@ -102,18 +106,6 @@ request({
     console.log('Upload successful!  Server responded with:', body);
 })
 
-myPayload = {
-   'payloadID': 'ABOUT_THIS_BOT_PAYLOAD',
-   'name': 'sam',
-   'age': '25',
-   'meta': {
-      'time': '4',
-      'date': '28'
-   }
-}
-
-myPayload = JSON.stringify(myPayload)
-
 request({
     uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
     qs: {
@@ -130,7 +122,7 @@ request({
         }, {
             "type": "postback",
             "title": "About Jefferson",
-            "payload": myPayload
+            "payload": "ABOUT_THIS_BOT_PAYLOAD"
         }]
     }
 }, function(error, response, body) {
@@ -355,14 +347,12 @@ function receivedMessage(event) {
                 break;
 
             default:
-               //  sendTextMessage(senderID, messageText);
+                sendTextMessage(senderID, "Whoops! I'm not sure what you said there. Try tapping one of the buttons above or restarting the conversation from the menu.");
         }
     } else if (messageAttachments) {
         messageAttachments = messageAttachments[0]
         if (messageAttachments.type === 'location') {
             sendTextMessage(senderID, "Excellent! Hang on while I find your representatives.")
-
-            // theZip =
 
             // Get Reps from Sunight
             request({
@@ -377,10 +367,8 @@ function receivedMessage(event) {
                     return console.error('upload failed:', error);
                 }
                 console.log('Upload successful!  Server responded with:', body);
-               //  console.log('LOOK HERE')
+
                 var dataPack = JSON.parse(body);
-               //  console.log(dataPack)
-               //  console.log(dataPack.results.length)
                 if (dataPack.results.length == 0) {
                     sendTextMessage(senderID, "Looks like there are no congresspeople in that area. Please select another location using the menu.")
                 } else {
@@ -419,8 +407,6 @@ function receivedMessage(event) {
                         if (theURL[4] == ':') {
                             theURL = theURL.replace('http', 'https')
                         }
-                        //  theURL = repData.website.replace('http', 'https')
-                        //  console.log(theURL)
 
                         if (repData.chamber.toLowerCase() == 'senate') {
                            chamberTitle = 'Senator'
@@ -551,13 +537,6 @@ function receivedPostback(event) {
     console.log("Received postback for user %d and page %d with payload '%s' " +
         "at %d", senderID, recipientID, payload, timeOfPostback);
 
-   //  console.log('LOOK HERE')
-   //  console.log(event.postback)
-
-    // When a postback is called, we'll send a message back to the sender to
-    // let them know it was successful
-    // sendTextMessage(senderID, "Postback called");
-
     if (payload.indexOf('WELCOME_PAYLOAD') > -1) {
         sendTextMessage(senderID, "Hello! I'm Jefferson. I can help you get in contact with your congresspeople.");
         setTimeout(function() {
@@ -566,8 +545,8 @@ function receivedPostback(event) {
      } else if (payload.indexOf('ABOUT_THIS_BOT_PAYLOAD') > -1) {
 
         structuredPayload = JSON.parse(payload)
-      //   console.log(structuredPayload);
-        sendTextMessage(senderID, "Jefferson was created by Sam Weiller, 2017. Operations are supported by the Sunlight Foundation API, UnitedStates.io, and Google's Geocode API. For any questions, please visit us at CallWithJefferson.org or contact us at jefferson@samweiller.io.")
+
+        sendTextMessage(senderID, "Jefferson was created by Sam Weiller, 2017. Operations are supported by the Sunlight Foundation API, TheUnitedStates.io, and Google's Geocode API. For any questions, please visit us at CallWithJefferson.org or contact us at jefferson@samweiller.io.")
     } else if (payload.indexOf('RESTART_REP_SEARCH_PAYLOAD') > -1) {
         setTimeout(function() {
             sendTextMessage(senderID, "Let's look up some more representatives.")
@@ -580,42 +559,16 @@ function receivedPostback(event) {
 
         payloadData = JSON.parse(payload)
 
-      //   console.log(payloadData)
-
-      //   repIndex = payload[payload.length - 1];
-
-      //   console.log('NO. LOOK HERE!')
-            //   console.log(scriptData)
-            //   console.log(masterRepData)
-
-      //   scriptTemp = masterRepData[repIndex]
-            //   console.log(scriptTemp)
-
-      //   constituent = "George Milton"
-
         googleMapsClient.reverseGeocode({
             latlng: payloadData.coords_lat + ',' + payloadData.coords_long
         }, function(err, response) {
             if (!err) {
-               //  console.log('GOT LOCATION')
-                theLocationData = response.json.results[0];
-               //  console.log(theLocationData)
+               theLocationData = response.json.results[0];
 
-               //  if (scriptTemp.chamber.toLowerCase() == 'senate') {
-               //      chamberTitle = 'Senator'
-               //  } else if (scriptTemp.chamber.toLowerCase() == 'house') {
-               //      chamberTitle = 'Representative'
-               //  } else {
-               //      chamberTitle = 'Congressperson'
-               //  }
-
-               //  console.log(theLocationData.address_components.length);
-               //  if (theLocationData) {
                theZip = '';
                theState = '';
                theCity = '';
                     for (j = 0; j < theLocationData.address_components.length; j++) {
-                     //   console.log(theLocationData.address_components[j].types[0]);
                         if (theLocationData.address_components[j].types[0] == 'postal_code') {
                            theZip = theLocationData.address_components[j].long_name
                         } else if (theLocationData.address_components[j].types[0] == 'administrative_area_level_1') {
@@ -636,24 +589,6 @@ function receivedPostback(event) {
                   }
                }
 
-               // console.log('hello I am here');
-               //
-               //  console.log(chamberTitle)
-               //
-               // //  theCity = theLocationData[0].address_components[3].long_name;
-               //  console.log(theCity);
-               // //  theState = theLocationData[0].address_components[5].long_name;
-               //  console.log(theState)
-               // //  theZip = theLocationData[0].address_components[7].long_name;
-               //  console.log(theZip)
-
-               // NOT NEEDED. WILL REMOVE ASAP
-               //  theLastName = toTitleCase(scriptTemp.last_name)
-               //  console.log(theLastName);
-               //  phoneNumber = scriptTemp.phone
-               //  console.log(phoneNumber);
-
-
                 request({
                     uri: 'https://graph.facebook.com/v2.6/' + senderID,
                     qs: {
@@ -667,8 +602,6 @@ function receivedPostback(event) {
                         var messageId = body.message_id;
 
                         userData = JSON.parse(body);
-
-                        // console.log(userData)
 
                         userName = userData.first_name + " " + userData.last_name
 
@@ -711,9 +644,7 @@ function receivedPostback(event) {
             }
         });
     } else if (payload.indexOf('GENERATE_MORE_OPTIONS') > -1) {
-         payloadData = JSON.parse(payload)
-      //   repIndex = payload[payload.length - 1];
-      //   scriptTemp = masterRepData[repIndex]
+      payloadData = JSON.parse(payload)
 
       theMailingPayload = {
          'payloadID': 'GET_MAILING_ADDRESS',
@@ -746,11 +677,12 @@ function receivedPostback(event) {
     } else if (payload.indexOf('GET_MAILING_ADDRESS') > -1) {
         payloadData = JSON.parse(payload)
         sendTextMessage(senderID, payloadData.rep_address)
+        sendTextMessage(senderID, "Pro tip: If you write you congresspeople, send a postcard! Envelopes often take longer to be opened, read, and considered.")
     } else if (payload.indexOf('GO_TO_TWITTER') > -1) {
         repIndex = payload[payload.length - 1];
         scriptTemp = masterRepData[repIndex]
 
-        imageURL = "https://theunitedstates.io/images/congress/225x275/" + scriptTemp.bioguide_id + ".jpg"
+        imageURL = "https://theunitedstates.io/images/congress/450x550/" + scriptTemp.bioguide_id + ".jpg"
 
         if (scriptTemp.chamber.toLowerCase() == 'senate') {
             chamberTitle = 'Senator'
@@ -787,11 +719,7 @@ function receivedPostback(event) {
                 },
             }
         }
-      //   console.log('sending Now')
         callSendAPI(messageContent)
-      //   console.log('should be sent')
-
-      //   sendTextMessage(senderID, addressText)
     }
 }
 
@@ -845,73 +773,6 @@ function sendTextMessage(recipientId, messageText) {
         message: {
             text: messageText,
             metadata: "DEVELOPER_DEFINED_METADATA"
-        }
-    };
-
-    callSendAPI(messageData);
-}
-
-/*
- * Send a button message using the Send API.
- *
- */
-function sendButtonMessage(recipientId) {
-    var messageData = {
-        recipient: {
-            id: recipientId
-        },
-        message: {
-            attachment: {
-                type: "template",
-                payload: {
-                    template_type: "button",
-                    text: "This is test text",
-                    buttons: [{
-                        type: "web_url",
-                        url: "https://www.oculus.com/en-us/rift/",
-                        title: "Open Web URL"
-                    }, {
-                        type: "postback",
-                        title: "Trigger Postback",
-                        payload: "DEVELOPER_DEFINED_PAYLOAD"
-                    }, {
-                        type: "phone_number",
-                        title: "Call Phone Number",
-                        payload: "+16505551234"
-                    }]
-                }
-            }
-        }
-    };
-
-    callSendAPI(messageData);
-}
-
-
-/*
- * Send a message with Quick Reply buttons.
- *
- */
-function sendQuickReply(recipientId) {
-    var messageData = {
-        recipient: {
-            id: recipientId
-        },
-        message: {
-            text: "What's your favorite movie genre?",
-            quick_replies: [{
-                "content_type": "text",
-                "title": "Action",
-                "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
-            }, {
-                "content_type": "text",
-                "title": "Comedy",
-                "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY"
-            }, {
-                "content_type": "text",
-                "title": "Drama",
-                "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_DRAMA"
-            }]
         }
     };
 
@@ -1048,7 +909,6 @@ function toTitleCase(str) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
 }
-
 
 // Start server
 // Webhooks must be available via SSL with a certificate signed by a valid
