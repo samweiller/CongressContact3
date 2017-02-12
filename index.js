@@ -440,6 +440,9 @@ function receivedMessage(event) {
                            'payloadID': 'GENERATE_MORE_OPTIONS',
                            'rep_address': addressText,
                            'twitter': repData.twitter_id,
+                           'chamber_title': chamberTitle,
+                           'rep_first_name': repData.first_name,
+                           'rep_last_name': repData.last_name,
                            'bioguide': repData.bioguide_id
                         }
 
@@ -653,6 +656,16 @@ function receivedPostback(event) {
 
       theMailingPayload = JSON.stringify(theMailingPayload)
 
+      theTwitterPayload = {
+         'payloadID': 'GO_TO_TWITTER',
+         'twitter': payloadData.twitter,
+         'chamber_title': payloadData.chamber_title,
+         'bioguide': payloadData.bioguide,
+         'rep_last_name': payloadData.rep_last_name
+      }
+
+      theTwitterPayload = JSON.stringify(theTwitterPayload)
+
         var messageData = {
             recipient: {
                id: senderID
@@ -667,7 +680,13 @@ function receivedPostback(event) {
                            type: "postback",
                            title: "Get Mailing Address",
                            payload: theMailingPayload
-                        }]
+                        },
+                        {
+                           type: "postback",
+                           title: "Find on Twitter",
+                           payload: theTwitterPayload
+                        }
+                     ]
                     }
                }
             }
@@ -677,22 +696,17 @@ function receivedPostback(event) {
     } else if (payload.indexOf('GET_MAILING_ADDRESS') > -1) {
         payloadData = JSON.parse(payload)
         sendTextMessage(senderID, payloadData.rep_address)
-        sendTextMessage(senderID, "Pro tip: If you write you congresspeople, send a postcard! Envelopes often take longer to be opened, read, and considered.")
+        setTimeout(function(){
+           sendTextMessage(senderID, "Pro tip: If you write you congresspeople, send a postcard! Envelopes often take longer to be opened, read, and considered.")
+        }, 1000)
+
     } else if (payload.indexOf('GO_TO_TWITTER') > -1) {
-        repIndex = payload[payload.length - 1];
-        scriptTemp = masterRepData[repIndex]
+        payloadData = JSON.parse(payload)
 
-        imageURL = "https://theunitedstates.io/images/congress/450x550/" + scriptTemp.bioguide_id + ".jpg"
+        imageURL = "https://theunitedstates.io/images/congress/450x550/" + payloadData.bioguide + ".jpg"
 
-        if (scriptTemp.chamber.toLowerCase() == 'senate') {
-            chamberTitle = 'Senator'
-        } else if (scriptTemp.chamber.toLowerCase() == 'house') {
-            chamberTitle = 'Representative'
-        } else {
-            chamberTitle = 'Congressperson'
-        }
 
-        theURL = 'http://twitter.com/' + scriptTemp.twitter_id
+        theURL = 'http://twitter.com/' + payloadData.twitter
 
         var messageContent = {
             "recipient": {
@@ -704,7 +718,7 @@ function receivedPostback(event) {
                     "payload": {
                         "template_type": "generic",
                         "elements": [{
-                            title: "Visit " + chamberTitle + " " + scriptTemp.last_name + " on Twitter.",
+                            title: "Visit " + payloadData.chamber_title + " " + payloadData.rep_last_name + " on Twitter.",
                             image_url: imageURL,
                             subtitle: "Twitter",
                             "default_action": {
