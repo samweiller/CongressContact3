@@ -419,7 +419,7 @@ function receivedMessage(event) {
                             chamberZip = '20510'
                         }
 
-                        imageURL = "https://theunitedstates.io/images/congress/225x275/" + repData.bioguide_id + ".jpg"
+                        imageURL = "https://theunitedstates.io/images/congress/450x550/" + repData.bioguide_id + ".jpg"
 
                         theContactPayload = {
                            'payloadID': 'GENERATE_SCRIPT',
