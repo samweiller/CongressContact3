@@ -547,7 +547,7 @@ function receivedPostback(event) {
         }, 2000)
      } else if (payload.indexOf('ABOUT_THIS_BOT_PAYLOAD') > -1) {
 
-        structuredPayload = JSON.parse(payload)
+      //   structuredPayload = JSON.parse(payload)
 
         sendTextMessage(senderID, "Jefferson was created by Sam Weiller, 2017. Operations are supported by the Sunlight Foundation API, TheUnitedStates.io, and Google's Geocode API. For any questions, please visit us at CallWithJefferson.org or contact us at jefferson@samweiller.io.")
     } else if (payload.indexOf('RESTART_REP_SEARCH_PAYLOAD') > -1) {
