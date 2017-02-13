@@ -396,11 +396,11 @@ function receivedMessage(event) {
                         theFullSubtitle = toTitleCase(repData.chamber) + " - " + theParty
 
                         if (repData.gender == 'M') {
-                           repArticle = 'Him';
+                           repArticle = 'His';
                         } else if (repData.gender == 'F') {
                            repArticle = 'Her'
                         } else {
-                           repArticle = 'Them'
+                           repArticle = 'Their'
                         }
 
                         theURL = repData.website
@@ -458,7 +458,7 @@ function receivedMessage(event) {
                             },
                             "buttons": [{
                                 "type": "postback",
-                                "title": "Contact " + repArticle,
+                                "title": "Get " + repArticle + " Contact Info",
                                 "payload": theContactPayload
                             }, {
                                 "type": "postback",
