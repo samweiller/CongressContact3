@@ -697,7 +697,7 @@ function receivedPostback(event) {
         payloadData = JSON.parse(payload)
         sendTextMessage(senderID, payloadData.rep_address)
         setTimeout(function(){
-           sendTextMessage(senderID, "Pro tip: If you write you congresspeople, send a postcard! Envelopes often take longer to be opened, read, and considered.")
+           sendTextMessage(senderID, "Pro tip: If you write your congresspeople, send a postcard! Envelopes often take longer to be opened, read, and considered.")
         }, 1000)
 
     } else if (payload.indexOf('GO_TO_TWITTER') > -1) {
