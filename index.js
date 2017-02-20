@@ -895,17 +895,18 @@ function sendAccountLinking(recipientId) {
  *
  */
 function callSendAPI(messageData) {
-    request({
-        uri: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {
-            access_token: PAGE_ACCESS_TOKEN
-        },
-        method: 'POST',
-        json: messageData
+   requestData = {
+      uri: 'https://graph.facebook.com/v2.6/me/messages',
+      qs: {
+           access_token: PAGE_ACCESS_TOKEN
+      },
+      method: 'POST',
+      json: messageData
 
-    }, function(error, response, body) {
+   }
+    request(requestData, function(error, response, body) {
         if (!error && response.statusCode == 200) {
-           dashbot.logOutgoing(messageData, response.body);
+           dashbot.logOutgoing(requestData, response.body);
             var recipientId = body.recipient_id;
             var messageId = body.message_id;
 
