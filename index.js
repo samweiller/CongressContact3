@@ -742,7 +742,7 @@ function receivedPostback(event) {
 
             formattedCommittees = ""
             for (i = 0; i < numberOfCommittees; i++) {
-               formattedCommittees += "- " += theCommittees[i].name += "\n"
+               formattedCommittees += "- " + theCommittees[i].name += "\n"
             }
 
             sendTextMessage(senderID, formattedCommittees)
