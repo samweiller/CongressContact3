@@ -721,6 +721,7 @@ function receivedPostback(event) {
           },
           method: 'GET',
       }, function(error, response, body) {
+         console.log(body);
          theCommittees = body.results;
 
          console.log(theCommittees);
