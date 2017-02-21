@@ -722,6 +722,7 @@ function receivedPostback(event) {
           method: 'GET',
       }, function(error, response, body) {
          theCommittees = body.results;
+         console.log(theCommittees);
 
          numberOfCommittees = theCommittees.length;
 
