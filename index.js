@@ -722,7 +722,8 @@ function receivedPostback(event) {
           method: 'GET',
       }, function(error, response, body) {
          console.log(body);
-         theCommittees = body.results;
+
+         theCommittees = JSON.parse(body).results;
 
          console.log(theCommittees);
 
