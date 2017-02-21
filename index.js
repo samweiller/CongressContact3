@@ -717,23 +717,24 @@ function receivedPostback(event) {
       request({
           uri: 'https://congress.api.sunlightfoundation.com/committees',
           qs: {
-              member_ids: payload.bioguide
+              member_ids: payloadData.bioguide
           },
           method: 'GET',
       }, function(error, response, body) {
          theCommittees = body.results;
+
          console.log(theCommittees);
 
          numberOfCommittees = theCommittees.length;
 
          if (numberOfCommittees == 0) {
-            theMessageText = payload.chamber_title + " " + payload.rep_last_name + " is not a member of any committees."
+            theMessageText = payloadData.chamber_title + " " + payloadData.rep_last_name + " is not a member of any committees."
             sendTextMessage(senderID, theMessageText)
          } else {
             if (numberOfCommittees == 1) {
-               theMessageText = payload.chamber_title + " " + payload.rep_last_name + " is a member of 1 committee."
+               theMessageText = payloadData.chamber_title + " " + payloadData.rep_last_name + " is a member of 1 committee."
             } else {
-               theMessageText = payload.chamber_title + " " + payload.rep_last_name + " is a member of " + numberOfCommittees + " committees."
+               theMessageText = payloadData.chamber_title + " " + payloadData.rep_last_name + " is a member of " + numberOfCommittees + " committees."
             }
             sendTextMessage(senderID, theMessageText)
 
