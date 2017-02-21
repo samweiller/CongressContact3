@@ -451,6 +451,16 @@ function receivedMessage(event) {
 
                         theInfoPayload = JSON.stringify(theInfoPayload)
 
+                        theCommitteePayload = {
+                           'payloadID': 'GET_COMMITTEES',
+                           'bioguide': repData.bioguide_id,
+                           'chamber_title': chamberTitle,
+                           'rep_first_name': repData.first_name,
+                           'rep_last_name': repData.last_name
+                        }
+
+                        theCommitteePayload = JSON.stringify(theCommitteePayload)
+
                         repToPush = {
                             title: theName,
                             image_url: imageURL,
@@ -463,6 +473,10 @@ function receivedMessage(event) {
                                 "type": "postback",
                                 "title": "Get " + repArticle + " Contact Info",
                                 "payload": theContactPayload
+                            }, {
+                              "type": "postback",
+                              "title": "Get " + repArticle + " Committees",
+                              "payload": theCommitteePayload
                             }, {
                                 "type": "postback",
                                 "title": "More Options",
@@ -696,6 +710,46 @@ function receivedPostback(event) {
        }
 
        callSendAPI(messageData);
+    } else if (payload.indexOf('GET_COMMITTEES') > -1) {
+      payloadData = JSON.parse(payload)
+
+      // Request sunlight call
+      request({
+          uri: 'https://congress.api.sunlightfoundation.com/committees',
+          qs: {
+              member_ids: payload.bioguide
+          },
+          method: 'GET',
+      }, function(error, response, body) {
+         theCommittees = body.results;
+
+         numberOfCommittees = theCommittees.length;
+
+         if (numberOfCommittees == 0) {
+            theMessageText = payload.chamber_title + " " + payload.rep_last_name + " is not a member of any committees."
+            sendTextMessage(senderID, theMessageText)
+         } else {
+            if (numberOfCommittees == 1) {
+               theMessageText = payload.chamber_title + " " + payload.rep_last_name + " is a member of 1 committee."
+            } else {
+               theMessageText = payload.chamber_title + " " + payload.rep_last_name + " is a member of " + numberOfCommittees + " committees."
+            }
+            sendTextMessage(senderID, theMessageText)
+
+            formattedCommittees = ""
+            for (i = 0; i < numberOfCommittees; i++) {
+               formattedCommittees += theCommittees[i].name += "\n"
+            }
+
+            sendTextMessage(senderID, formattedCommittees)
+         }
+      })
+      // Parse JSON return
+
+      // Format data
+
+
+
     } else if (payload.indexOf('GET_MAILING_ADDRESS') > -1) {
         payloadData = JSON.parse(payload)
         sendTextMessage(senderID, payloadData.rep_address)
