@@ -814,7 +814,7 @@ function sendLocationRequest(recipientId) {
             id: recipientId
         },
         "message": {
-            "text": "All I need is your location to get started. If you're not at home, you can move the pin on the map to the right location.",
+            "text": "All I need is your location to get started.\nIf you're not at home, you can move the pin on the map to the right location.",
             "quick_replies": [{
                 "content_type": "location",
             }]
