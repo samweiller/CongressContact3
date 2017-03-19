@@ -120,7 +120,7 @@ request({
         "composer_input_disabled": true,
         "call_to_actions": [{
             "type": "postback",
-            "title": "Find More Representatives",
+            "title": "Find My Congresspeople",
             "payload": "RESTART_REP_SEARCH_PAYLOAD"
         }, {
             "type": "postback",
