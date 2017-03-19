@@ -79,7 +79,7 @@ request({
         "setting_type": "call_to_actions",
         "thread_state": "new_thread",
         "call_to_actions": [{
-            "payload": "WELCOME_PAYLOAD"
+            "payload": "RESTART_REP_SEARCH_PAYLOAD"
         }]
     }
 }, function(error, response, body) {
