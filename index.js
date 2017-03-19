@@ -567,7 +567,7 @@ function receivedPostback(event) {
 
     } else if (payload.indexOf('RESTART_REP_SEARCH_PAYLOAD') > -1) {
         setTimeout(function() {
-            sendTextMessage(senderID, "Let's look up some representatives.")
+            sendTextMessage(senderID, "Let's look up some congresspeople.")
             setTimeout(function() {
                 sendLocationRequest(senderID)
             }, 2000)
