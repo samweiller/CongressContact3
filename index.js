@@ -117,6 +117,7 @@ request({
     json: {
         setting_type: "call_to_actions",
         "thread_state": "existing_thread",
+        "composer_input_disabled": true,
         "call_to_actions": [{
             "type": "postback",
             "title": "Find More Representatives",
@@ -125,6 +126,10 @@ request({
             "type": "postback",
             "title": "About Jefferson",
             "payload": "ABOUT_THIS_BOT_PAYLOAD"
+        }, {
+            "type": "postback",
+            "title": "Help",
+            "payload": "MENU_HELP_PAYLOAD"
         }]
     }
 }, function(error, response, body) {
@@ -553,6 +558,13 @@ function receivedPostback(event) {
       //   structuredPayload = JSON.parse(payload)
 
         sendTextMessage(senderID, "Jefferson was created by Sam Weiller, 2017. Operations are supported by the Sunlight Foundation API, TheUnitedStates.io, and Google's Geocode API. For any questions, please visit us at CallWithJefferson.org or contact us at jefferson@samweiller.io.")
+
+     } else if (payload.indexOf('MENU_HELP_PAYLOAD') > -1) {
+
+     //   structuredPayload = JSON.parse(payload)
+
+       sendTextMessage(senderID, "Jefferson works best on a mobile device or on messenger.com. If you are having trouble getting Jefferson to find your congresspeople, try chatting with him on a mobile device or at http://m.me/CallWithJefferson.")
+
     } else if (payload.indexOf('RESTART_REP_SEARCH_PAYLOAD') > -1) {
         setTimeout(function() {
             sendTextMessage(senderID, "Let's look up some more representatives.")
