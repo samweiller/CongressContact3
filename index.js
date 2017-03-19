@@ -18,7 +18,7 @@ var googleMapsClient = require('@google/maps').createClient({
     key: 'AIzaSyCEWnT2fRtUmWSMIpLXLTu5cLmMbFrfMKk'
 });
 
-var dashbot = require('dashbot')(process.env.DASHBOT_API_KEY).facebook;
+// var dashbot = require('dashbot')(process.env.DASHBOT_API_KEY).facebook;
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -148,7 +148,7 @@ request({
  */
 app.post('/webhook', function(req, res) {
     var data = req.body;
-    dashbot.logIncoming(data);
+   //  dashbot.logIncoming(data);
 
     // Make sure this is a page subscription
     if (data.object == 'page') {
@@ -918,7 +918,7 @@ function callSendAPI(messageData) {
    }
     request(requestData, function(error, response, body) {
         if (!error && response.statusCode == 200) {
-           dashbot.logOutgoing(requestData, response.body);
+         //   dashbot.logOutgoing(requestData, response.body);
             var recipientId = body.recipient_id;
             var messageId = body.message_id;
 
