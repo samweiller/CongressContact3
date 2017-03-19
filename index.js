@@ -567,7 +567,7 @@ function receivedPostback(event) {
 
     } else if (payload.indexOf('RESTART_REP_SEARCH_PAYLOAD') > -1) {
         setTimeout(function() {
-            sendTextMessage(senderID, "Let's look up some more representatives.")
+            sendTextMessage(senderID, "Let's look up some representatives.")
             setTimeout(function() {
                 sendLocationRequest(senderID)
             }, 2000)
@@ -814,7 +814,7 @@ function sendLocationRequest(recipientId) {
             id: recipientId
         },
         "message": {
-            "text": "All I need is your location to get started.",
+            "text": "All I need is your location to get started. If you're not at home, you can move the pin on the map to the right location.",
             "quick_replies": [{
                 "content_type": "location",
             }]
