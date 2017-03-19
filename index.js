@@ -18,7 +18,7 @@ var googleMapsClient = require('@google/maps').createClient({
     key: 'AIzaSyCEWnT2fRtUmWSMIpLXLTu5cLmMbFrfMKk'
 });
 
-var dashbot = require('dashbot')(process.env.DASHBOT_API_KEY).facebook;
+// var dashbot = require('dashbot')(process.env.DASHBOT_API_KEY).facebook;
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -117,14 +117,19 @@ request({
     json: {
         setting_type: "call_to_actions",
         "thread_state": "existing_thread",
+        "composer_input_disabled": true,
         "call_to_actions": [{
             "type": "postback",
-            "title": "Find More Representatives",
+            "title": "Find My Congresspeople",
             "payload": "RESTART_REP_SEARCH_PAYLOAD"
         }, {
             "type": "postback",
             "title": "About Jefferson",
             "payload": "ABOUT_THIS_BOT_PAYLOAD"
+        }, {
+            "type": "postback",
+            "title": "Help",
+            "payload": "MENU_HELP_PAYLOAD"
         }]
     }
 }, function(error, response, body) {
@@ -143,7 +148,7 @@ request({
  */
 app.post('/webhook', function(req, res) {
     var data = req.body;
-    dashbot.logIncoming(data);
+   //  dashbot.logIncoming(data);
 
     // Make sure this is a page subscription
     if (data.object == 'page') {
@@ -350,7 +355,7 @@ function receivedMessage(event) {
                 break;
 
             default:
-                sendTextMessage(senderID, "Whoops! I'm not sure what you said there. Try tapping one of the buttons above or restarting the conversation from the menu.");
+                sendTextMessage(senderID, "Whoops! I'm not sure what you said there. Try choosing an option from the menu below.");
         }
     } else if (messageAttachments) {
         messageAttachments = messageAttachments[0]
@@ -485,6 +490,7 @@ function receivedMessage(event) {
                                 "type": "template",
                                 "payload": {
                                     "template_type": "generic",
+                                    "image_aspect_ratio": "square",
                                     "elements": dataElements
                                 }
                             },
@@ -553,9 +559,16 @@ function receivedPostback(event) {
       //   structuredPayload = JSON.parse(payload)
 
         sendTextMessage(senderID, "Jefferson was created by Sam Weiller, 2017. Operations are supported by the Sunlight Foundation API, TheUnitedStates.io, and Google's Geocode API. For any questions, please visit us at CallWithJefferson.org or contact us at jefferson@samweiller.io.")
+
+     } else if (payload.indexOf('MENU_HELP_PAYLOAD') > -1) {
+
+     //   structuredPayload = JSON.parse(payload)
+
+       sendTextMessage(senderID, "Jefferson works best on a mobile device or on messenger.com. If you are having trouble getting Jefferson to find your congresspeople, try chatting with him on a mobile device or at http://m.me/CallWithJefferson.")
+
     } else if (payload.indexOf('RESTART_REP_SEARCH_PAYLOAD') > -1) {
         setTimeout(function() {
-            sendTextMessage(senderID, "Let's look up some more representatives.")
+            sendTextMessage(senderID, "Let's look up some congresspeople.")
             setTimeout(function() {
                 sendLocationRequest(senderID)
             }, 2000)
@@ -802,7 +815,7 @@ function sendLocationRequest(recipientId) {
             id: recipientId
         },
         "message": {
-            "text": "All I need is your location to get started.",
+            "text": "All I need is your location to get started.\nIf you're not at home, you can move the pin on the map to the right location.",
             "quick_replies": [{
                 "content_type": "location",
             }]
@@ -906,7 +919,7 @@ function callSendAPI(messageData) {
    }
     request(requestData, function(error, response, body) {
         if (!error && response.statusCode == 200) {
-           dashbot.logOutgoing(requestData, response.body);
+         //   dashbot.logOutgoing(requestData, response.body);
             var recipientId = body.recipient_id;
             var messageId = body.message_id;
 
