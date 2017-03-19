@@ -355,7 +355,7 @@ function receivedMessage(event) {
                 break;
 
             default:
-                sendTextMessage(senderID, "Whoops! I'm not sure what you said there. Try tapping one of the buttons above or restarting the conversation from the menu.");
+                sendTextMessage(senderID, "Whoops! I'm not sure what you said there. Try choosing an option from the menu below.");
         }
     } else if (messageAttachments) {
         messageAttachments = messageAttachments[0]
