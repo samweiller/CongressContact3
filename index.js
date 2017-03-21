@@ -109,33 +109,32 @@ request({
 })
 
 request({
-    uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
+    uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
     qs: {
         access_token: PAGE_ACCESS_TOKEN
     },
     method: 'POST',
     json: {
-      "persistent_menu":[
-    {
-      "locale":"default",
-      "composer_input_disabled":true,
-      //   setting_type: "call_to_actions",
-      //   "thread_state": "existing_thread",
-      //   "composer_input_disabled": true,
-        "call_to_actions": [{
-            "type": "postback",
-            "title": "Find My Congresspeople",
-            "payload": "RESTART_REP_SEARCH_PAYLOAD"
-        }, {
-            "type": "postback",
-            "title": "About Jefferson",
-            "payload": "ABOUT_THIS_BOT_PAYLOAD"
-        }, {
-            "type": "postback",
-            "title": "Help",
-            "payload": "MENU_HELP_PAYLOAD"
+        "persistent_menu": [{
+            "locale": "default",
+            "composer_input_disabled":true,
+            //   setting_type: "call_to_actions",
+            //   "thread_state": "existing_thread",
+            //   "composer_input_disabled": true,
+            "call_to_actions": [{
+                "type": "postback",
+                "title": "Find My Congresspeople",
+                "payload": "RESTART_REP_SEARCH_PAYLOAD"
+            }, {
+                "type": "postback",
+                "title": "About Jefferson",
+                "payload": "ABOUT_THIS_BOT_PAYLOAD"
+            }, {
+                "type": "postback",
+                "title": "Help",
+                "payload": "MENU_HELP_PAYLOAD"
+            }]
         }]
-     }]
     }
 }, function(error, response, body) {
     if (error) {
@@ -153,7 +152,7 @@ request({
  */
 app.post('/webhook', function(req, res) {
     var data = req.body;
-   //  dashbot.logIncoming(data);
+    //  dashbot.logIncoming(data);
 
     // Make sure this is a page subscription
     if (data.object == 'page') {
@@ -295,7 +294,7 @@ function receivedMessage(event) {
 
     console.log("Received message for user %d and page %d at %d with message:",
         senderID, recipientID, timeOfMessage);
-   //  console.log(JSON.stringify(message));
+    //  console.log(JSON.stringify(message));
 
     var isEcho = message.is_echo;
     var messageId = message.mid;
@@ -409,11 +408,11 @@ function receivedMessage(event) {
                         theFullSubtitle = toTitleCase(repData.chamber) + " - " + theParty
 
                         if (repData.gender == 'M') {
-                           repArticle = 'His';
+                            repArticle = 'His';
                         } else if (repData.gender == 'F') {
-                           repArticle = 'Her'
+                            repArticle = 'Her'
                         } else {
-                           repArticle = 'Their'
+                            repArticle = 'Their'
                         }
 
                         theURL = repData.website
@@ -422,27 +421,27 @@ function receivedMessage(event) {
                         }
 
                         if (repData.chamber.toLowerCase() == 'senate') {
-                           chamberTitle = 'Senator'
+                            chamberTitle = 'Senator'
                             chamberZip = '20510'
                         } else if (repData.chamber.toLowerCase() == 'house') {
-                           chamberTitle = 'Representative'
+                            chamberTitle = 'Representative'
                             chamberZip = '20515'
                         } else {
-                           chamberTitle = 'Congressperson'
+                            chamberTitle = 'Congressperson'
                             chamberZip = '20510'
                         }
 
                         imageURL = "https://theunitedstates.io/images/congress/450x550/" + repData.bioguide_id + ".jpg"
 
                         theContactPayload = {
-                           'payloadID': 'GENERATE_SCRIPT',
-                           'rep_first_name': repData.first_name,
-                           'rep_last_name': repData.last_name,
-                           'rep_phone': repData.phone,
-                           'chamber_title': chamberTitle,
-                           'coords_lat': messageAttachments.payload.coordinates.lat,
-                           'coords_long': messageAttachments.payload.coordinates.long,
-                           'bioguide': repData.bioguide_id
+                            'payloadID': 'GENERATE_SCRIPT',
+                            'rep_first_name': repData.first_name,
+                            'rep_last_name': repData.last_name,
+                            'rep_phone': repData.phone,
+                            'chamber_title': chamberTitle,
+                            'coords_lat': messageAttachments.payload.coordinates.lat,
+                            'coords_long': messageAttachments.payload.coordinates.long,
+                            'bioguide': repData.bioguide_id
                         }
 
                         theContactPayload = JSON.stringify(theContactPayload)
@@ -450,13 +449,13 @@ function receivedMessage(event) {
                         addressText = repData.first_name + " " + repData.last_name + "\n" + repData.office + "\n" + "Washington, DC, " + chamberZip
 
                         theInfoPayload = {
-                           'payloadID': 'GENERATE_MORE_OPTIONS',
-                           'rep_address': addressText,
-                           'twitter': repData.twitter_id,
-                           'chamber_title': chamberTitle,
-                           'rep_first_name': repData.first_name,
-                           'rep_last_name': repData.last_name,
-                           'bioguide': repData.bioguide_id
+                            'payloadID': 'GENERATE_MORE_OPTIONS',
+                            'rep_address': addressText,
+                            'twitter': repData.twitter_id,
+                            'chamber_title': chamberTitle,
+                            'rep_first_name': repData.first_name,
+                            'rep_last_name': repData.last_name,
+                            'bioguide': repData.bioguide_id
                         }
 
                         theInfoPayload = JSON.stringify(theInfoPayload)
@@ -559,17 +558,17 @@ function receivedPostback(event) {
         setTimeout(function() {
             sendLocationRequest(senderID)
         }, 2000)
-     } else if (payload.indexOf('ABOUT_THIS_BOT_PAYLOAD') > -1) {
+    } else if (payload.indexOf('ABOUT_THIS_BOT_PAYLOAD') > -1) {
 
-      //   structuredPayload = JSON.parse(payload)
+        //   structuredPayload = JSON.parse(payload)
 
         sendTextMessage(senderID, "Jefferson was created by Sam Weiller, 2017. Operations are supported by the Sunlight Foundation API, TheUnitedStates.io, and Google's Geocode API. For any questions, please visit us at CallWithJefferson.org or contact us at jefferson@samweiller.io.")
 
-     } else if (payload.indexOf('MENU_HELP_PAYLOAD') > -1) {
+    } else if (payload.indexOf('MENU_HELP_PAYLOAD') > -1) {
 
-     //   structuredPayload = JSON.parse(payload)
+        //   structuredPayload = JSON.parse(payload)
 
-       sendTextMessage(senderID, "Jefferson works best on a mobile device or on messenger.com. If you are having trouble getting Jefferson to find your congresspeople, try chatting with him on a mobile device or at http://m.me/CallWithJefferson.")
+        sendTextMessage(senderID, "Jefferson works best on a mobile device or on messenger.com. If you are having trouble getting Jefferson to find your congresspeople, try chatting with him on a mobile device or at http://m.me/CallWithJefferson.")
 
     } else if (payload.indexOf('RESTART_REP_SEARCH_PAYLOAD') > -1) {
         setTimeout(function() {
@@ -587,36 +586,36 @@ function receivedPostback(event) {
             latlng: payloadData.coords_lat + ',' + payloadData.coords_long
         }, function(err, response) {
             if (!err) {
-               theLocationData = response.json.results[0];
+                theLocationData = response.json.results[0];
 
-               theZip = '';
-               theState = '';
-               theCity = '';
+                theZip = '';
+                theState = '';
+                theCity = '';
+                for (j = 0; j < theLocationData.address_components.length; j++) {
+                    if (theLocationData.address_components[j].types[0] == 'postal_code') {
+                        theZip = theLocationData.address_components[j].long_name
+                    } else if (theLocationData.address_components[j].types[0] == 'administrative_area_level_1') {
+                        theState = theLocationData.address_components[j].long_name
+                    } else if (theLocationData.address_components[j].types[0] == 'locality') {
+                        theCity = theLocationData.address_components[j].long_name
+                    }
+                }
+                //  }
+
+                if (theCity == '') { // If a location has no locality (ie Brooklyn), search back through for a sublocality
                     for (j = 0; j < theLocationData.address_components.length; j++) {
-                        if (theLocationData.address_components[j].types[0] == 'postal_code') {
-                           theZip = theLocationData.address_components[j].long_name
-                        } else if (theLocationData.address_components[j].types[0] == 'administrative_area_level_1') {
-                           theState = theLocationData.address_components[j].long_name
-                        } else if (theLocationData.address_components[j].types[0] == 'locality') {
-                           theCity = theLocationData.address_components[j].long_name
+                        if (theLocationData.address_components[j].types[0] == 'political') {
+                            if (theLocationData.address_components[j].types[1] == 'sublocality') {
+                                theCity = theLocationData.address_components[j].long_name
+                            }
                         }
                     }
-               //  }
-
-               if (theCity == '') { // If a location has no locality (ie Brooklyn), search back through for a sublocality
-                  for (j = 0; j < theLocationData.address_components.length; j++) {
-                     if (theLocationData.address_components[j].types[0] == 'political') {
-                        if (theLocationData.address_components[j].types[1] == 'sublocality') {
-                           theCity = theLocationData.address_components[j].long_name
-                        }
-                     }
-                  }
-               }
+                }
 
                 request({
                     uri: 'https://graph.facebook.com/v2.6/' + senderID,
                     qs: {
-                       access_token: PAGE_ACCESS_TOKEN
+                        access_token: PAGE_ACCESS_TOKEN
                     },
                     method: 'GET'
 
@@ -668,57 +667,57 @@ function receivedPostback(event) {
             }
         });
     } else if (payload.indexOf('GENERATE_MORE_OPTIONS') > -1) {
-      payloadData = JSON.parse(payload)
+        payloadData = JSON.parse(payload)
 
-      theMailingPayload = {
-         'payloadID': 'GET_MAILING_ADDRESS',
-         'rep_address': payloadData.rep_address
-      }
+        theMailingPayload = {
+            'payloadID': 'GET_MAILING_ADDRESS',
+            'rep_address': payloadData.rep_address
+        }
 
-      theMailingPayload = JSON.stringify(theMailingPayload)
+        theMailingPayload = JSON.stringify(theMailingPayload)
 
-      theTwitterPayload = {
-         'payloadID': 'GO_TO_TWITTER',
-         'twitter': payloadData.twitter,
-         'chamber_title': payloadData.chamber_title,
-         'bioguide': payloadData.bioguide,
-         'rep_last_name': payloadData.rep_last_name
-      }
+        theTwitterPayload = {
+            'payloadID': 'GO_TO_TWITTER',
+            'twitter': payloadData.twitter,
+            'chamber_title': payloadData.chamber_title,
+            'bioguide': payloadData.bioguide,
+            'rep_last_name': payloadData.rep_last_name
+        }
 
-      theTwitterPayload = JSON.stringify(theTwitterPayload)
+        theTwitterPayload = JSON.stringify(theTwitterPayload)
 
         var messageData = {
             recipient: {
-               id: senderID
+                id: senderID
             },
             message: {
-               attachment: {
+                attachment: {
                     type: "template",
                     payload: {
                         template_type: "button",
                         text: "In addition to calling, here are some other actions you can take.",
                         buttons: [{
-                           type: "postback",
-                           title: "Get Mailing Address",
-                           payload: theMailingPayload
-                        },
-                        {
-                           type: "postback",
-                           title: "Find on Twitter",
-                           payload: theTwitterPayload
-                        }
-                     ]
+                                type: "postback",
+                                title: "Get Mailing Address",
+                                payload: theMailingPayload
+                            },
+                            {
+                                type: "postback",
+                                title: "Find on Twitter",
+                                payload: theTwitterPayload
+                            }
+                        ]
                     }
-               }
+                }
             }
-       }
+        }
 
-       callSendAPI(messageData);
+        callSendAPI(messageData);
     } else if (payload.indexOf('GET_MAILING_ADDRESS') > -1) {
         payloadData = JSON.parse(payload)
         sendTextMessage(senderID, payloadData.rep_address)
-        setTimeout(function(){
-           sendTextMessage(senderID, "Pro tip: If you write your congresspeople, send a postcard! Envelopes often take longer to be opened, read, and considered.")
+        setTimeout(function() {
+            sendTextMessage(senderID, "Pro tip: If you write your congresspeople, send a postcard! Envelopes often take longer to be opened, read, and considered.")
         }, 1000)
 
     } else if (payload.indexOf('GO_TO_TWITTER') > -1) {
@@ -913,18 +912,18 @@ function sendAccountLinking(recipientId) {
  *
  */
 function callSendAPI(messageData) {
-   requestData = {
-      uri: 'https://graph.facebook.com/v2.6/me/messages',
-      qs: {
-           access_token: PAGE_ACCESS_TOKEN
-      },
-      method: 'POST',
-      json: messageData
+    requestData = {
+        uri: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {
+            access_token: PAGE_ACCESS_TOKEN
+        },
+        method: 'POST',
+        json: messageData
 
-   }
+    }
     request(requestData, function(error, response, body) {
         if (!error && response.statusCode == 200) {
-         //   dashbot.logOutgoing(requestData, response.body);
+            //   dashbot.logOutgoing(requestData, response.body);
             var recipientId = body.recipient_id;
             var messageId = body.message_id;
 
