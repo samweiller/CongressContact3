@@ -118,9 +118,6 @@ request({
         "persistent_menu": [{
             "locale": "default",
             "composer_input_disabled":true,
-            //   setting_type: "call_to_actions",
-            //   "thread_state": "existing_thread",
-            //   "composer_input_disabled": true,
             "call_to_actions": [{
                 "type": "postback",
                 "title": "Find My Congresspeople",
